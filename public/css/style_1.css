@@ -30,21 +30,98 @@ p{margin: 10px 0px;}.purple{color:#da00ff;}.green{color:#039203;}#tips{position:
 #table{border-collapse:collapse;}
 #table td{border: 1px solid #000;text-align: center;padding: 0 5px;}
 .holiday{display: inline-block;width: 20px;font-size: 20px;color:#9e9e9e;}
+#for_drag1,#for_drag2{border:1px dashed #000;width: 130px;height: 50px;float: left;margin-left: 20px;}
+#dragable img{float: left;}#hidden_attr{display: inline-block;overflow: hidden;width: 3em;height: 1.5em;vertical-align: bottom;}
 
+/*CSS3*/
 
+#wrap_for_animate{width: 200px;height: 200px;border:1px solid #000;position: relative;margin-left: 30px;}
+#animate1{
+    animation: animate1 7s  linear 1s alternate infinite;
+    width: 40px;height: 40px;background-color: #ff0000;
+    position: absolute;
+}
+@-webkit-keyframes animate1{
+    0% {background: #FF0000;left:0;top:0;}
+    16% {background: #FF7F00;}
+    25%{left:160px;top:0;}
+    32% {background: #FFFF00;}
+    40% {background: #00FF00;}
+    56% {background: #00FFFF ;}
+    50%{top:160px;left:160px;}
+    72% {background: #0000FF;}
+    75%{left:0;top:160px;}
+    88% {background: #8B00FF;}
+    100% {background: #FF0000;top:0;top:0;}
+}
+@keyframes animate1{
+    0% {background: #FF0000;left:0;top:0;}
+    16% {background: #FF7F00;}
+    25%{left:160px;top:0;}
+    32% {background: #FFFF00;}
+    40% {background: #00FF00;}
+    56% {background: #00FFFF ;}
+    50%{top:160px;left:160px;}
+    72% {background: #0000FF;}
+    75%{left:0;top:160px;}
+    88% {background: #8B00FF;}
+    100% {background: #FF0000;top:0;top:0;}
+}
+@-moz-keyframes animate1{
+    0% {background: #FF0000;left:0;top:0;}
+    16% {background: #FF7F00;}
+    25%{left:160px;top:0;}
+    32% {background: #FFFF00;}
+    40% {background: #00FF00;}
+    56% {background: #00FFFF ;}
+    50%{top:160px;left:160px;}
+    72% {background: #0000FF;}
+    75%{left:0;top:160px;}
+    88% {background: #8B00FF;}
+    100% {background: #FF0000;top:0;top:0;}
+}
+@-o-keyframes animate1{
+    0% {background: #FF0000;left:0;top:0;}
+    16% {background: #FF7F00;}
+    25%{left:160px;top:0;}
+    32% {background: #FFFF00;}
+    40% {background: #00FF00;}
+    56% {background: #00FFFF ;}
+    50%{top:160px;left:160px;}
+    72% {background: #0000FF;}
+    75%{left:0;top:160px;}
+    88% {background: #8B00FF;}
+    100% {background: #FF0000;top:0;top:0;}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+#background{width: 200px;height: 60px;border: 1px dashed #000;margin-left: 30px;
+            background: #d8f8ff url(../images/createPattern.jpg) 5px 5px/50px 50px repeat fixed border-box border-box;}
+#box-shadow{width: 100px;height: 100px;background-color: #ff9933;box-shadow: 0 0 15px 5px #000 ;margin-left: 15px;}
+#box p[data-markp]{white-space:nowrap;background-color: #ffff33}
+#box div[id^='big']{width: 150px;border: 1px solid #000;margin-top: 5px;}
+#big_box_visbile{overflow-x: visible;}
+#big_box_hidden{overflow-x:hidden;}
+#big_box_scroll{overflow-x: scroll;}
+#font_span{font:600 20px/1.3 '玩蛇','宋体','微软雅黑','Microsoft Yahei',arial;}
+@font-face { 
+font-family:'玩蛇';
+src: url('../images/玩蛇.ttf');
+}
+#word-break_k{display: inline-block;width: 150px;word-break: keep-all;border: 1px solid #000;}
+#word-break_b{display: inline-block;width: 150px;word-break: break-all;border: 1px solid #000;}
+#oldposition{width: 50px;height: 50px;border: 1px dashed #000;}
+#tranform{width: 50px;height: 50px;background-color: #99ff33;
+            transform: translate(380px,-35px) scale(1.5) rotate(60deg);
+            -moz-transform: translate(380px,-35px) scale(1.5) rotate(60deg);
+            -ms-transform: translate(380px,-35px) scale(1.5) rotate(60deg);
+            -webkit-transform: translate(380px,-35px) scale(1.5) rotate(60deg);}
+#transition{width: 50px;height: 50px;background-color: #FF7F00;
+            transition: width,height,2s ,ease-in-out ,0s;
+            -webkit-transition: width,height,2s ,ease-in-out ,0s;
+            -moz-transition: width,height,2s ,ease-in-out ,0s;
+            -ms-transition: width,height,2s ,ease-in-out ,0s;
+            -o-transition: width,height,2s ,ease-in-out ,0s;}
+#transition:hover{width: 100px;height: 100px;}
 
 
 

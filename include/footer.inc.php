@@ -13,7 +13,12 @@
 </div>
 </article>
 <div style="height: 500px;"></div>
-
+<!--[if lte IE 8]>
+<script src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script>
+<![endif]-->
+<!--[if (gt IE 8)|(! IE)]><-->
+<script src="http://cdn.staticfile.org/jquery/3.1.1/jquery.min.js"></script>
+<!--[endif] -->
 <script src="public/js/js1.js"></script>
 <script>
 </script>

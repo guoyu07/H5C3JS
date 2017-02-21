@@ -111,7 +111,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>表单 form</span><br/>
+            <span class='red'>表单 &lt;form&gt;</span><br/>
             <span class="blue  mar_l_30">自动完成 </span>
             <span>autocomplete='off/on'就是刷新或者返回后是否还保存刚刚数据 建议关闭<br/></span>
             <span class="blue mar_l_30">表单发送数据编码格式 </span>
@@ -126,7 +126,7 @@ require('include/header.inc.php');
         </p>
         <hr/>
         <p>
-            <span class='red'>输入类型input</span><br/>
+            <span class='red'>输入类型&lt;input&gt;</span><br/>
             <span class="blue mar_l_30">接受文件类型 </span>
             <span>accept='image/gif, image/jpeg, image/png'就是只可以上传这三种类型图片<br/></span>
             <span class="blue mar_l_30">自动获得焦点 </span>
@@ -152,7 +152,7 @@ require('include/header.inc.php');
         </p>
         <hr/>
         <p>
-            <span class='red'>下拉选择框 select<br/></span>
+            <span class='red'>下拉选择框 &lt;select&gt;<br/></span>
             <span class="blue mar_l_30">选项</span> 
             <span>option<br/></span>
             <span class="blue mar_l_30">选项组</span> 
@@ -160,12 +160,12 @@ require('include/header.inc.php');
         </p>
         <hr/>
         <p>
-            <span class='red'>下拉数据列 datalist</span><br/>
+            <span class='red'>下拉数据列 &lt;datalist&gt;</span><br/>
             <span>与option list 搭配使用</span>
         </p>
         <hr/>
         <p>
-            <span class='red'>文本域 textarea</span><br/>
+            <span class='red'>文本域&lt;textarea &gt;</span><br/>
             <span class="blue mar_l_30">行 clos='' 列='rows'</span><br/>
             <span class="blue mar_l_30">提交时保留换行</span> 
             <span> wrap=soft(默认不保留换行)|hard 保留换行<br/></span>
@@ -257,7 +257,7 @@ require('include/header.inc.php');
     <div>
         <p>
             <span class='red'>inline 和inline-block<br/></span>
-            <span>inline表示行内元素,inline-block表示行业块元素 <br/></span>
+            <span>inline表示行内元素,inline-block表示行内块元素 <br/></span>
             <span>inline不能设置高度,他的高度约等于字体高度*1.333 各个字体可能有偏差<br/></span>
             <span>当前微软雅黑字体就是约等于1.3倍的font-size;也就是16*1.3 约等于21<br/></span>
             <span><span class="in_block">inline-block: 高度就是完整的行高,比如font-size:16,line-heigth:150%;那样就是24px;</span><br/></span>
@@ -268,7 +268,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>内联框架 iframe <br/></span>
+            <span class='red'>内联框架 &lt;iframe&gt;<br/></span>
             <span class='blue mar_l_30'>框架内容限制 </span>
             <span>sandbox :"" 表示禁用所有</span>
             <span class='purple'>我觉得可以不写这个,允许所有执行 <br/></span>
@@ -277,7 +277,7 @@ require('include/header.inc.php');
             <span class='mar_l_30'>allow-forms 允许表单提交。<br/></span>
             <span class='mar_l_30'>allow-scripts 允许脚本执行。<br/></span>
             <span class='blue mar_l_30'>框架内容显示 </span>
-            <span>srcdoc="&lt;p&lt;hello world&lt;/p&lt;" 表示在框架中显示这个</span>
+            <span>srcdoc="&lt;p&lt;hello world&lt;/p&lt;" 表示在框架中显示这个,chrome下会覆盖iframe内容</span>
         </p>
         <div id="iframe">
             <iframe id="iframe_1" src="include/iframe_1.html" width="198px"></iframe><!--开启后会覆盖框架内内容-->
@@ -290,7 +290,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>图片 img <br/></span>
+            <span class='red'>图片 &lt;img&gt;<br/></span>
             <span class="blue mar_l_30">服务器端图像映射 ismap </span>
             <span>将会发送点击区域的px到服务器 下面这张图片利用了这一点</span>
             <span class="purple">图片必须要在超链接标签中才可以使用 <br/></span>
@@ -298,7 +298,7 @@ require('include/header.inc.php');
                 <img class="border_s_black" src="public/images/pic_map.jpg" alt="pic_map.jpg" ismap="ismap"><br/>
             </a>
             <span class="blue mar_l_30">使用图像映射 usemap</span>
-            <span>usemap='map的name或#id取决于浏览器'<br/></span>
+            <span>usemap='#map的name或id取决于浏览器'<br/></span>
             <span class="mar_l_30">这张图片点击不同区域会跳转到不同的地方<br/></span>
             <img class="mar_l_30 border_s_black" src="public/images/pic_map.jpg" alt="pic_map.jpg" usemap="#map1">
         </p>
@@ -307,8 +307,8 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>图像地图 map <br/></span>
-            <span class="red">图像区域 area<br/></span>
+            <span class='red'>图像地图 &lt;map&gt;<br/></span>
+            <span class="red">图像区域 &lt;area&gt;<br/></span>
             <span class="mar_l_30">area必须要在map中<br/></span>
             <span class="blue mar_l_30">shape 形状<br/></span>
             <span class="mar_l_30">rect 矩形 circle:圆形 poly:多边形<br/></span>
@@ -327,7 +327,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>画布 canvas <br/></span>
+            <span class='red'>画布 &lt;canvas&gt;<br/></span>
             <span class="purple">学到了clip.等实践的时候再学</span>
         </p>
         <canvas id="canvas" width="500" height="270">你的浏览不支持画布</canvas>
@@ -336,7 +336,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>音频 audio <br/></span>
+            <span class='red'>音频 &lt;audio&gt;<br/></span>
             <span class="blue mar_l_30">自动播放 autoplay </span>
             <span>加载完成自动播放 <br/></span><!--去掉stop开启自动播放-->
             <span class="blue mar_l_30">播放控件 controls </span>
@@ -361,11 +361,11 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span id="video" class='red'>视频 video <br/></span>
+            <span id="video" class='red'>视频 &lt;video&gt;<br/></span>
             <span class="blue mar_l_30">初始样式 poster <br/></span>
             <span class="mar_l_30">poster='图片地址' 显示视频未播放时显示的画面 <br/></span>
             <span class='purple mar_l_30'>同样拥有audio的各种属性 <br/></span>
-            <span class="red mar_l_30">外部文本轨道 track <br/></span>
+            <span class="red mar_l_30">外部文本轨道 &lt;track&gt;<br/></span>
             <span class="blue mar_l_30">默认文本轨道 default </span>
             <span>default='dafault' <br/></span>
             <span class="blue mar_l_30">定义轨道种类 kind <br/></span>
@@ -386,7 +386,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>超链接 a <br/></span>
+            <span class='red'>超链接 &lt;a&gt;<br/></span>
             <span class="blue mar_l_30">下载操作 download <br/></span>
             <span class="mar_l_30">download='下载后的文件名' 后缀可以不设置,浏览器会自动添加 <br/></span>
             <span class="blue mar_l_30">页面锚点跳转 href='#id' <br/></span>
@@ -398,7 +398,7 @@ require('include/header.inc.php');
 
     <div>
         <p>
-            <span class='red'>表格 table<br/></span>
+            <span class='red'>表格 &lt;table&gt;<br/></span>
 
         </p>
         <table id="table">
@@ -440,55 +440,319 @@ require('include/header.inc.php');
                 <td>5:10-6:30</td><td colspan="5">晚餐时间</td>
             </tr>
         </table>
+        <hr/>
     </div>
 
     <div>
         <p>
-            <span class='red'>节点 htm5新标签 <br/></span>
-            <span class='red'>header </span>
+            <span class='red'>节点 html5新标签 <br/></span>
+            <span class='red'>&lt;header&gt;</span>
             <span>定义 section 或 page 的页眉。<br/></span>
-            <span class='red'>footer </span>
+            <span class='red'>&lt;footer&gt; </span>
             <span>定义 section 或 page 的页脚<br/></span>
-            <span class='red'>section </span>
+            <span class='red'>&lt;section&gt; </span>
             <span>定义块 部分<br/></span>
-            <span class='red'>article</span>
+            <span class='red'>&lt;article&gt;</span>
             <span>定义文章<br/></span>
-            <span class='red'>article</span>
-            <span>定义文章<br/></span>
-            <span class='red'>asides</span>
-            <span>定义内容之外的内容
+            <span class='red'>&lt;asides&gt;</span>
+            <span>定义内容之外的内容,与文章配对
                 <span class='purple'>可以作为文章侧栏用来提示<br/></span>
-            </span>
-            <span class='red'>源 meta<br/></span>
-            <span class="blue mar_l_30">content <br/></span>
-            <span class="mar_l_30">content 一般用来和keywords和discrption一起用 </span>
-            <span>比如&lt;meta name='keywords' content='buff的笔记'/&gt;<br/></span>
-            <span class="blue mar_l_30">name <br/></span>
-            <span class="mar_l_30">author：作者<br/></span>
-            <span class="mar_l_30">description：网页描述<br/></span>
-            <span class="mar_l_30">keywords：关键字<br/></span>
-            <span class="mar_l_30">generator：制作软件-比如netbeans,vs<br/></span>
-            <span class="mar_l_30">revised：网页文档的修改时间<br/></span>
-            <span class="mar_l_30">viewport：控制页面缩放<br/></span>
-            <span class="mar_l_30">copyright：网页版权信息<br/></span>
-            <span class="blue mar_l_30">http-equiv <br/></span>
-            <span class="mar_l_30">content-type：设置页面字符集<br/></span>
-            <span class="mar_l_30">expires：设置页面过期时间<br/></span>
-            <span class="mar_l_30">refresh：设置页面延迟跳转到新网页<br/></span>
-            <span class="mar_l_30">pragma： content="no-cache"禁止浏览器从本地调用缓存<br/></span>
-            <span class="mar_l_30">cache-control： content="no-cache"清除缓存<br/></span>
+            </span><hr/>
+        <span class='red'>源 &lt;meta&gt;<br/></span>
+        <span class="blue mar_l_30">content <br/></span>
+        <span class="mar_l_30">content 一般用来和keywords和discrption一起用 </span>
+        <span>比如&lt;meta name='keywords' content='buff的笔记'/&gt;<br/></span>
+        <span class="blue mar_l_30">name <br/></span>
+        <span class="mar_l_30">author：作者<br/></span>
+        <span class="mar_l_30">description：网页描述<br/></span>
+        <span class="mar_l_30">keywords：关键字<br/></span>
+        <span class="mar_l_30">generator：制作软件-比如netbeans,vs<br/></span>
+        <span class="mar_l_30">revised：网页文档的修改时间<br/></span>
+        <span class="mar_l_30">viewport：控制页面缩放<br/></span>
+        <span class="mar_l_30">copyright：网页版权信息<br/></span>
+        <span class="blue mar_l_30">http-equiv <br/></span>
+        <span class="mar_l_30">content-type：设置页面字符集<br/></span>
+        <span class="mar_l_30">expires：设置页面过期时间<br/></span>
+        <span class="mar_l_30">refresh：设置页面延迟跳转到新网页<br/></span>
+        <span class="mar_l_30">pragma： content="no-cache"禁止浏览器从本地调用缓存<br/></span>
+        <span class="mar_l_30">cache-control： content="no-cache"清除缓存<br/></span>
+        </p>
+        <hr/>
+    </div>
 
+    <div>
+        <p>
+            <span class='red'>访问快捷键 accesskey</span>
+            <span>一般用在&lt;a&gt;中,设置 accesskeey='c' 即表示按下 ALT+(SHIFT)+C=点击了这个链接 如:</span>
+            <span><a href="http://www.buffge.com/" style="color: blue;" accesskey="c">buff鸽官网</a></span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>元素可编辑 contenteditable </span>
+            <span> contenteditable= true|false 如后面几个字可以编辑</span>
+            <span contenteditable="true" style="border: 2px solid rgb(166,200,255);">这是可以编辑的文字</span>
+        </p><hr/>
+    </div>
+
+    <div id="customAttr">
+        <p>
+            <span class='red'>自定义属性 data-* </span>
+            <span> data-后面至少要跟一个字符,可用于js控制,不要写大写字符</span>
+            <span data-person-type='纯爷们'>buff</span>&nbsp;
+            <span data-person-type='伪娘'>wuwei</span>
+            <span onclick="is_single_men();" style="text-decoration: underline;cursor: pointer;">检测纯爷们</span>
+            <span>,纯爷们的名称会变蓝</span>
+        </p><hr/>
+    </div>
+
+    <div id="dragable">
+        <p>
+            <span class='red'>元素可拖动性 dragable </span>
+            <span> dragable="true | false | auto"</span>
+            <span class="purple">链接和图片是默认可拖动的 <br/></span>
+            <span>当拖动开始时 设置数据以及他的id<br/></span>
+            <span>当拖动元素在此元素上方时,允许拖动元素降落并取消默认事件<br/></span>
+            <span>当降落时取消默认的事件,并取出元素,并加入到此元素内<br/></span>
+        </p>
+        <div>
+            <div id="for_drag1" ondragover="allowDrop(event);"ondrop="drop(event)">
+                <img id="drag_pic" draggable="true" ondragstart="drag(event);" src="public/images/head_logo.jpg" alt="buff鸽logo.jpg"/>
+            </div>
+            <div id="for_drag2" ondragover="allowDrop(event);" ondrop="drop(event);"></div>
+            <br style="clear: both;"/>
+        </div>
+        <hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>元素隐藏 hidden </span>
+            <span> hidden='hidden' 后面的六七八就被隐藏了</span>
+            <span> 一二三四五</span><span id="hidden_attr" ><span hidden="hidden">六七八</span></span><span>九十</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>拼写检查 spellcheck </span>
+            <span> spellcheck='true|false' 后面的第一个hello world 不会被检查,第二个会</span>
+            <span contenteditable="true" spellcheck="false">helol wordl </span>
+            <span contenteditable="true" spellcheck="true">helol wordl</span><br/>
+            <span class='purple mar_l_30'>要写一下才会检查</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>tab次序 tabindex </span>
+            <span> 1为起始值, 可在以下标签使用&lt;a&gt;, &lt;area&gt;,</span>
+            <span>&lt;button&gt;,&lt;input&gt;,&lt;select&gt; 以及 &lt;textarea&gt;<br/></span>
+            <span>按tab将会先到3再到2,次tabindex 对整个页面都有效,再按就会回到上面form</span>
+            <input type="text" tabindex="1"/> <input type="text" tabindex="3"/> <input type="text" tabindex="2"/>
+        </p><hr/>
+    </div>
+
+    <div>
+        <h3>事件属性</h3>
+        <p>
+            <span class='red'>页面完成加载事件 onload<br/></span>
+            <span class='red'>浏览器窗口大小被调整事件 onresize<br/></span>
+            <span class='red'>失去焦点事件 onresize<br/></span>
+            <span class='red'>得到焦点事件 onfocus<br/></span>
+            <span class='red'>文本被选中事件 onselect</span>
+            <span class='purple'>貌似只能用在输入的文本中,如input<br/></span>
+            <span class='red'>表单被提交事件 onsubmit<br/></span>
+            <span class='red'>按下按键时触发 onkeydown<br/></span>
+            <span class='red'>按键的字符被输出时触发 onkeypress<br/></span>
+            <span class='purple'>按alt shift等不输出字符的键不会触发,当keydown之后只要不松开就会一直输出字符,即keypress一直被触发<br/></span>
+            <span class='red'>当用户释放按键时触发 onkeyup<br/></span>
+            <span class='red'>双击事件 ondblclick<br/></span>
+            <span class='red'>鼠标滚轮事件事件 onmousewheel<br/></span>
+            <span class='red'>当滚动条滚动式事件 onscroll<br/></span>
+        </p>
+        <p class="green">更多aodio/video 属性方法,暂时不写,要用到时候写</p><hr/>
+    </div>
+
+</div>
+
+<div id="CSS3">
+    <H2>CSS3</H2>
+    <div>
+        <p>
+            <span class='red'>动画 animate <br/></span>
+            <span class="blue mar_l_30">@keyframes</span>
+            <span>规定动画 @keyframes 动画名{stataments}</span>
+            <span class='purple'>需要加-webkit- -o- -moz-前缀,原版的浏览器不支持 <br/></span>
+            <span class="blue mar_l_30">动画集合 animation</span>
+            <span class="mar_l_30">包含所有动画属性,除了animation-play-state <br/></span>
+            <span class="blue mar_l_30">动画名 animation-name</span>
+            <span class="mar_l_30">设置动画名 为keyframes中设置的name<br/></span>
+            <span class="blue mar_l_30">动画周期 animation-duration</span>
+            <span class="mar_l_30">设置从0-100%所花费时间<br/></span>
+            <span class="blue mar_l_30">动画速度曲线 animation-timing-function</span>
+            <span class="mar_l_30">linear:匀速 ,ease:慢|快|慢,ease-in:慢|匀速,ease-out:匀速|慢,ease-in-out:慢|匀速|慢<br/></span>
+            <span class="blue mar_l_30">动画初始延迟 animation-delay</span>
+            <span class="mar_l_30">从文件加载完毕开始计时 延迟一定秒数播放<br/></span>
+            <span class="blue mar_l_30">动画播放次数 animation-iteration-count</span>
+            <span class="mar_l_30">次数等于num或者infinite 无限<br/></span>
+            <span class="blue mar_l_30">动画第二周期是否逆向 animation-direction</span>
+            <span class="mar_l_30">normal:默认值,不变化 alternate:反向<br/></span>
+            <span class="blue mar_l_30">此动画执行之前之后元素动画设置 animation-fill-mode<br/></span>
+            <span class="mar_l_30">none:默认,forwards:结束后保留最后一帧,backwards:显示之前显示0%的样式.both:前后都改变<br/></span>
+            <span class="blue mar_l_30">动画播放暂停 animation-play-state</span>
+            <span class="mar_l_30">用js控制暂停和继续 paused:暂停 running:继续<br/></span>
+        </p>
+        <div id="wrap_for_animate">
+            <div id="animate1"></div>
+        </div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>背景 background</span>
+            <span class="blue mar_l_30">背景颜色</span>
+            <span class="mar_l_30">background-color:#d8f8ff 定义背景颜色<br/></span>
+            <span class="blue mar_l_30">背景图片</span>
+            <span class="mar_l_30">background-image: url(../images/createPattern.jpg);<br/></span>
+            <span class="blue mar_l_30">背景图片位置</span>
+            <span class="mar_l_30">background-position:5px 5px;距离左定位点xy<br/></span>
+            <span class="blue mar_l_30">背景图片大小</span>
+            <span class="mar_l_30">background-size 50px 50px.长宽<br/></span>
+            <span class='purple mar_l_30'>跟位置写在一起时,写成5px 5px/50px 50px 格式.并且safria 不支持这种写法 最好 size单独写<br/></span>
+            <span class="blue mar_l_30">背景图片重复</span>
+            <span class="mar_l_30">background-repeat:repeat(默认) xy轴均重复<br/></span>
+            <span class="blue mar_l_30">背景图片跟随滚动</span>
+            <span class="mar_l_30">background-attachment:fixed 固定背景 scroll为滚动<br/></span>
+            <span class="blue mar_l_30">背景定位区域</span>
+            <span class="mar_l_30">background-origin:border-box(默认) 以边框边缘计算定位位置 padding-box以及content-box<br/></span>
+            <span class="blue mar_l_30">背景绘制区域</span>
+            <span class="mar_l_30">background-clip: border-box:从边框开始绘制(默认),padding-box,content-box.<br/></span>
+            <span class="blue mar_l_30">背景颜色</span>
+            <span class="mar_l_30">background-color 定义背景颜色</span>
+        </p>
+        <div id="background"></div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>框阴影 box-shadow</span>
+            <span>box-shadow:0 0 15px #ff9933;x y偏移为0,阴影宽度15px</span>
+        </p>
+        <div id="box-shadow"></div><hr/>
+    </div>
+
+    <div id="box">
+        <p>
+            <span class='red'>内容溢出设置:overflow</span>
+            <span>黄色区域为p,黑色边框包着区域为div</span>
+        </p>
+        <div id="big_box_visbile">
+            <p data-markp='1'>overflow-x:visbile这段话好长呀</p>
+        </div>
+        <div id="big_box_hidden">
+            <p data-markp='1'>overflow-x:hidden这段话好长呀</p>
+        </div>
+        <div id="big_box_scroll">
+            <p data-markp='1'>overflow-x:scroll这段话好长呀</p>
+        </div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>透明度 opacity</span>
+            <span>opacity:0(完全透明)-1(完全不透明) ie8之前用filter:Alpha(opacity=0-100)</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='green'>可伸缩框 display:box,flex-box,flex 现在IE不支持,等做h5app时再学<br/></span>
+            <span class='green'>box ->flexbox->flex.只是版本的更新,为了兼容要都写.</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>字体设置 font</span>
+            <span id="font_span"> 600 20px/1.3 '玩蛇','宋体','微软雅黑','Microsoft Yahei',arial <br/></span>
+            <span>font-weight为600,font-size 20px;line-heigth:1.3em 字体为玩蛇,宋体以及后面的,当本机没有这种字体,自动向后取<br/></span>
+            <span class='red'>引入字体设置 @font-face <br/></span>
+            <span>@font-face { font-family:字体名;src: url('路径');} <br/></span>
+            <span class="purple">ie不支持ttf,要用eot.要准备2份</span>
         </p>
     </div>
 
+    <div>
+        <h3>文本属性 TEXT</h3>
+        <p>
+            <span class='red'>字符间距 letter-spacing <br/></span>
+            <span style="letter-spacing: 2px;">this paragraph 的字符间距是2px;<br/></span>
+            <span class='red'>单词间距 word-spacing <br/></span>
+            <span style="word-spacing: 15px;">this paragraph 的单词间距是15px;<br/></span>
+            <span class='red'>文本阴影 text-shadow<br/></span>
+            <span style="text-shadow:0 0 5px #05eef8;">this paragraph have text-shadow;<br/></span>
+            <span class='red'>文本空白处理(不换行控制) white-space:nowarp<br/></span>
+            <span style="width: 150px;display: inline-block;overflow: hidden;">
+                <span style="white-space:nowrap;">this paragraph don't warp</span>
+            </span><br/>
+            <span class='red'>文本超出显示省略号 text-overflow:ellipsis<br/></span>
+            <span style="width: 150px;display: inline-block;overflow: hidden;text-overflow:ellipsis;">
+                <span style="white-space:nowrap;">this paragraph don't warp</span>
+            </span><br/>
+            <span class='red'>英文单词自动换行设置 word-break <br/></span>
+            <span>word-break:keep-all 只能在半角空格和连字符处换行;</span>
+            <span id="word-break_k">
+                <span>l want hava a veryvery cute dog</span>
+            </span><br/>
+            <span>word-break:break-all: 允许单词内换行</span>
+            <span id="word-break_b">
+                <span>l want hava a veryvery cute dog</span>
+            </span><br/>
+            <span class='red'>允许长单词或 URL 地址换行到下一行<br/></span>
+            <span>word-warp:break-word 在长单词或url处内部进行换行</span>
+        </p>
+    </div>
 
+    <div>
+        <h3>2d/3d转换</h3>
+        <p>
+            <span class='red'>transform <br/></span>
+            <span class="blue mar_l_30">2d转换 translate</span>
+            <span>translate(380px,-35px)向x轴移动380px y轴移动-35px <span class='purple'>黑框为原来位置</span><br/></span>
+            <span class="blue mar_l_30">缩放 scale</span>
+            <span>scale(1.5)缩放为原来的1.5倍 <br/></span>
+            <span class="blue mar_l_30">旋转 rotate</span>
+            <span>rotate(60deg)顺时针旋转60度 <br/></span>
+        </p>
+        <div id="oldposition"><div id="tranform"></div></div>
+        <p>
+            <span class='red'>转换的基点 transform-origin</span>
+            <span>默认基点是50% 50%.放大缩小的时候就是以中心点缩小放大.<br/></span>
+            <span> 当把基点设置为100% 100% 时就是以右下角为基点进行缩放</span>
+            <span class="green">更多的2D/3D实战时再学</span>
+        </p>
+    </div>
 
+    <div>
+        <h3>过渡属性 transition</h3>
+        <p>
+            <span class='red'>过渡影响的属性transition-property</span>
+            <span>如width,height,left等等 hover有变化<br/></span>
+            <span class='red'>过渡时间 transition-duration <br/></span>
+            <span class='red'>过渡速度曲线 transition-timing-function <br/></span>
+            <span class='red'>过渡延时 transition-delay</span>
+        </p>
+        <div style="height: 100px;">
+            <div id="transition"></div>
+        </div>
+    </div>
 
 
 
 
 </div>
-
 
 
 

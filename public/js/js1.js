@@ -131,7 +131,46 @@ cv2.closePath(); // 让第2个点返回到起始点 算是闭合路径
 cv2.stroke();
 //学到绘制路径的clip. https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D
 
+/**
+ * 控制data-person-type值为纯爷们的元素颜色为蓝色
+ * @returns {undefined}
+ */
+function is_single_men() {
+    var customAttr = document.getElementById('customAttr').getElementsByTagName('span');
+    for (var i = 0; i < customAttr.length; i++) {
+        if (customAttr[i].getAttribute("data-person-type") === '纯爷们') {
+            customAttr[i].style.color = 'blue';
+        }
+    }
+}
+/**
+ * 当拖动开始时 设置数据以及他的id
+ * @param {事件} e
+ * @returns {undefined}
+ */
+function drag(e) {
+    e.dataTransfer.setData("Text", e.target.id);
+}
 
+/**
+ * 允许拖动元素降落并取消默认事件
+ * @param {事件} e
+ * @returns {undefined}
+ */
+function allowDrop(e) {
+    e.preventDefault();
+}
+
+/**
+ * 当降落时取消默认的事件,并取出元素,并加入到此元素内
+ * @param {事件} e
+ * @returns {undefined}
+ */
+function drop(e) {
+    e.preventDefault();
+    var data = e.dataTransfer.getData("Text");
+    e.target.appendChild(document.getElementById(data));
+}
 
 
 

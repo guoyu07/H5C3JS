@@ -11,6 +11,9 @@
         <title>前端笔记 HTML5 CSS3 JS</title>
         <link rel="stylesheet" type="text/css" href="public/css/style_1.css"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--[if lt IE 9]>
+        <script src="public/js/html5.js"></script>
+        <![endif]-->
     </head>
     <body>
         <header>
