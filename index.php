@@ -40,7 +40,7 @@ require('include/header.inc.php');
         </div>
         <p>
             <span>这里粉红色的div设置float:left 然后通过他后面的 &lt;br &gt; clear:both 设置清除向左的浮动,并使div重回流中,然后撑开div <br/></span>
-            <span>这里必须要用&lt;br &gt; 或者&ltp&gt;等块级元素才能让旁边的div撑开div,不能使用span等行内元素<br/></span>
+            <span>这里必须要用&lt;br &gt; 或者&lt;p&gt;等块级元素才能让旁边的div撑开div,不能使用span等行内元素<br/></span>
             <span>这里蓝色的div设置float:right 然后通过他后面的 &lt;br &gt; clear:both 设置清除向右的浮动,并使div重回流中,然后撑开div</span>
         </p><hr/>
     </div>
@@ -234,8 +234,8 @@ require('include/header.inc.php');
             </p>
             <p class="noselect">
                 <span>性别:
-                    <input type="radio" name="gender"id="male" value="男"/><label for="male">男</label> </span>
-                <input type="radio" name="gender"id="female" value="女"/><label for="female">女</label> </span>
+                    <input type="radio" name="gender" id="male" value="男"/><label for="male">男</label>
+                    <input type="radio" name="gender" id="female" value="女"/><label for="female">女</label></span>
             </p>
             <p>
                 <span>头像:
@@ -457,25 +457,27 @@ require('include/header.inc.php');
             <span class='red'>&lt;asides&gt;</span>
             <span>定义内容之外的内容,与文章配对
                 <span class='purple'>可以作为文章侧栏用来提示<br/></span>
-            </span><hr/>
-        <span class='red'>源 &lt;meta&gt;<br/></span>
-        <span class="blue mar_l_30">content <br/></span>
-        <span class="mar_l_30">content 一般用来和keywords和discrption一起用 </span>
-        <span>比如&lt;meta name='keywords' content='buff的笔记'/&gt;<br/></span>
-        <span class="blue mar_l_30">name <br/></span>
-        <span class="mar_l_30">author：作者<br/></span>
-        <span class="mar_l_30">description：网页描述<br/></span>
-        <span class="mar_l_30">keywords：关键字<br/></span>
-        <span class="mar_l_30">generator：制作软件-比如netbeans,vs<br/></span>
-        <span class="mar_l_30">revised：网页文档的修改时间<br/></span>
-        <span class="mar_l_30">viewport：控制页面缩放<br/></span>
-        <span class="mar_l_30">copyright：网页版权信息<br/></span>
-        <span class="blue mar_l_30">http-equiv <br/></span>
-        <span class="mar_l_30">content-type：设置页面字符集<br/></span>
-        <span class="mar_l_30">expires：设置页面过期时间<br/></span>
-        <span class="mar_l_30">refresh：设置页面延迟跳转到新网页<br/></span>
-        <span class="mar_l_30">pragma： content="no-cache"禁止浏览器从本地调用缓存<br/></span>
-        <span class="mar_l_30">cache-control： content="no-cache"清除缓存<br/></span>
+            </span>
+        </p><hr/>
+        <p>
+            <span class='red'>源 &lt;meta&gt;<br/></span>
+            <span class="blue mar_l_30">content <br/></span>
+            <span class="mar_l_30">content 一般用来和keywords和discrption一起用 </span>
+            <span>比如&lt;meta name='keywords' content='buff的笔记'/&gt;<br/></span>
+            <span class="blue mar_l_30">name <br/></span>
+            <span class="mar_l_30">author：作者<br/></span>
+            <span class="mar_l_30">description：网页描述<br/></span>
+            <span class="mar_l_30">keywords：关键字<br/></span>
+            <span class="mar_l_30">generator：制作软件-比如netbeans,vs<br/></span>
+            <span class="mar_l_30">revised：网页文档的修改时间<br/></span>
+            <span class="mar_l_30">viewport：控制页面缩放<br/></span>
+            <span class="mar_l_30">copyright：网页版权信息<br/></span>
+            <span class="blue mar_l_30">http-equiv <br/></span>
+            <span class="mar_l_30">content-type：设置页面字符集<br/></span>
+            <span class="mar_l_30">expires：设置页面过期时间<br/></span>
+            <span class="mar_l_30">refresh：设置页面延迟跳转到新网页<br/></span>
+            <span class="mar_l_30">pragma： content="no-cache"禁止浏览器从本地调用缓存<br/></span>
+            <span class="mar_l_30">cache-control： content="no-cache"清除缓存<br/></span>
         </p>
         <hr/>
     </div>
@@ -517,7 +519,7 @@ require('include/header.inc.php');
             <span>当降落时取消默认的事件,并取出元素,并加入到此元素内<br/></span>
         </p>
         <div>
-            <div id="for_drag1" ondragover="allowDrop(event);"ondrop="drop(event)">
+            <div id="for_drag1" ondragover="allowDrop(event);" ondrop="drop(event)">
                 <img id="drag_pic" draggable="true" ondragstart="drag(event);" src="public/images/head_logo.jpg" alt="buff鸽logo.jpg"/>
             </div>
             <div id="for_drag2" ondragover="allowDrop(event);" ondrop="drop(event);"></div>
@@ -656,7 +658,18 @@ require('include/header.inc.php');
         </div>
         <div id="big_box_scroll">
             <p data-markp='1'>overflow-x:scroll这段话好长呀</p>
-        </div><hr/>
+        </div>
+        <span class='red'>box 类型 box-sizing </span>
+        <span>就是box的width是从什么地方开始计算 <br/></span>
+        <span>默认box-sizing:content-box;那么元素的宽度就是border的宽度+padding++width =5+10+100=115<br/></span>
+        <span>如果box-sizing:border-box;那么元素的宽度就是width =100<br/></span>
+        <span>下面2个div的width都是100px,pading都是20,border都是5px<br/></span>
+        <span class='purple mar_l_30'>可用于一个大div中布局小div防止小div的边框影响div的宽度可以将小div设置为border-box.<br/></span>
+        <span class='purple mar_l_30'>那样为小div设置50%宽度的话,向左浮动时2个正好撑满并不会换行.</span>
+        <span class='purple mar_l_30'>如果是content-box则会使总宽度超过大div宽度而影响布局<br/></span>
+        <div class="box-sizing content-box"><p>content-box</p></div>
+        <div class="box-sizing border-box"><p>border-box</p></div>
+        <hr style="clear: both;"/>
     </div>
 
     <div>
@@ -712,7 +725,10 @@ require('include/header.inc.php');
             </span><br/>
             <span class='red'>允许长单词或 URL 地址换行到下一行<br/></span>
             <span>word-warp:break-word 在长单词或url处内部进行换行</span>
+            <span class='red'>首行缩进 text-indent</span>
+            <span>下面一行首行缩进2rem</span>
         </p>
+        <p id="text-indent">苟利国家生死以,岂因祸福避趋之.－－ 一颗赛艇</p>
     </div>
 
     <div>
@@ -738,6 +754,7 @@ require('include/header.inc.php');
     <div>
         <h3>过渡属性 transition</h3>
         <p>
+            <span class='purple'>scale translate rotate等2d/3d转换是属于transfrom的,过渡属性不能写scale rotate<br/></span>
             <span class='red'>过渡影响的属性transition-property</span>
             <span>如width,height,left等等 hover有变化<br/></span>
             <span class='red'>过渡时间 transition-duration <br/></span>
@@ -749,13 +766,116 @@ require('include/header.inc.php');
         </div>
     </div>
 
+    <div>
+        <h3>选择器</h3>
+        <p>
+            <span class='red'>before/after 伪类/元素 </span>
+            <span> element:before{content:"prefix-";style...}<br/></span>
+            <span class="purple">伪类的样式可以在css中定义 <br/>    </span>
+            <span id="before">我前面会多出一个字符串 <br/></span>
+            <span id="after">我后面会多出一个字符串</span>
+        </p>
 
+        <p>
+            <span class='red'>:selection 选中伪类 </span>
+            <span>element::selection{color:red;} <br/></span>
+            <span class='purple'>伪类用单冒号,伪元素用双冒号</span>
+            <span id="selection">选中此文本字体会变成红色</span>
+        </p>
+    </div>
 
 
 </div>
 
+<div>
+    <h2>JavaScript</h2>
+    <div id="strict_mode">
+        <p>
+            <span class='red'>严格模式 'use strict';</span>
+        </p>
+        <ol>
+            <li>全局变量必须显示声明,不能再函数内部声明全局变量 <br/></li>
+            <li>静态绑定:禁止使用with语句,以及eval声明的变量只能作用于eval内部<br/></li>
+            <li>禁止this 指向全局对象.<br/></li>
+            <li>禁止函数内部调用栈 不能内部调用funName.caller和funName.arguments<br/></li>
+            <li>禁止删除变量,只有configable设置为true的才能删除<br/></li>
+            <li>显式报错,有些时候对只读变量赋值,正常情况下不会报错,只会默默的失败.严格模式不行<br/></li>
+            <li>重名错误, 对象不能有重名属性,函数不能有重名的参数,不能使用八进制的整数,<br/></li>
+            <li>不允许对atguments赋值,arguments不再追踪参数的变化<br/></li>
+            <li>函数定义必须在顶层,不能在非函数性语句中定义函数,但是测试时候发现,如果执行函数语句和函数定义都在if(){}内也是可以的<br/></li>
+            <li>保留字 implements, interface, let, package, private, protected, public, static, yield...<br/></li>
+        </ol>
+
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>Number类型 <br/></span>
+            <span class="blue">NaN</span>
+            <span>表示不是一个数字,无法返回数字结果就返回这个.</span>
+            <span class='purple'>NaN无法与任何数相比,能判断是否为NaN的方法师isNaN()函数<br/></span>
+            <span class="blue">无限大 Infinity <br/></span>
+        </p>
+        <p>
+            <span class='red'>null和''的区别</span>
+            <span>null 表示空,''表示长度为0的字符串,undefined表示未定义.<br/></span>
+            <span>大多数时间应该用null,undefined仅仅在判断函数参数是否传递的情况下有用。</span>
+        </p>
+        <p>
+            <span class='red'>数组长度 arr.length</span>
+            <span>数组定义时里面不能有关联数组,但是可以后加,计算长度时也不会算上关联数组.但是for in循环会遍历出 <br/></span>
+            <span>若当前数组有0,1,2 3个键 此时定义一个100的键,那么4-99都是undefined;</span>
+        </p>
+        <p>
+            <span class='red'>多行字符串 </span>
+            <span>在换行处加\表示接着下一行的字符串<br/></span>
+            <span class='red'>模板字符串 </span>
+            <span> 'some staements'+a+b =`some statements${a}${b}`</span>
+            <span class="purple">但是ie和safrai不支持 <br/></span>
+            <span class='red'>字符串内容选择 str[n] </span>
+            <span>选择字符串中的单个字符 str[0]就是第一个字符, 但是str[0]='x' 并不有效 <br/></span>
+            <span class='red'>对象中属性选择 <br/></span>
+            <span>一般的对象定义属性名不要用''包起来,但是如果属性有特殊字符,必须要用''包起来,比如'last-name'<br/></span>
+            <span>选择对象的一个属性 obj.lastname 选择特殊符号属性的时候用obj['last-name']<br/></span>
+            <span class='red'>对象中属性删除 delete</span>
+            <span>var p={name:'buff'}; delete p.name;<br/></span>
+            <span class='red'>检测对象中是否存在某属性 in</span>
+            <span>'name' in p1; return true;<br/></span>
+            <span class='purple'>有时候有些属性时继承的,这时候可以用p1.hasOwnProperty('name');检测自己的属性 <br/></span>
+            <span class='red'>为false的值 </span>
+            <span>null、undefined、0、NaN和空字符串''视为false，其他值一概视为true <br/></span>
+            <span class='red'>循环遍历对象数组 for in</span>
+            <span class="purple">遍历数组时 返回键时是以字符串形式输出,即'0','1','2' <br/></span>
+            <span class='red'>数据类型Map</span>
+            <span>map表示一组键值对 初始化要建一个二维数组 var test=new Map([['a','buff'],['sb','wuwei']])<br/></span>
+            <span class="blue mar_l_30">方法 get()返回对应键的值 set()设置 has()是否拥有某键 delete删除键 <br/></span>
+            <span class='red'>数据类型 key集合 Set</span>
+            <span>Set中的key不能重复 初始化需要数组 var test=new Set([1,'fsdf',3,'3'])<br/></span>
+            <span class='red'>iterable类型 重复类型<br/></span>
+            <span>可以使用for...of array map 和set都属于iterable类型.for of只返回数组本身,不返回关联数组以及对象属性 <br/></span>
+            <span class='red'>块级作用域let</span>
+            <span>在for if语句中定义,出去就失效了 <br/></span>
+            <span class='red'>常量定义const</span>
+            <span>const也有快捷作用域<br/></span>
+            
+            
+            
+            
+            
+            
+            
+        </p>
+    </div>
 
 
+
+</div>
+<script>
+    "use strict";
+    var test = new Map([['a', 'buff'], ['sb', 'wuwei']]);
+    console.log(test.get('a'));
+
+</script>
 
 
 

@@ -4,7 +4,7 @@
   <#备注 = " ">     */
 body,ol,ul,h1,h2,h3,h4,h5,h6,p,th,td,dl,dd,form,fieldset,legend,input,textarea,select,pre{margin:0;padding:0} 
 rt{font-size: 0.8em;}
-body{font:16px/1.5 "Microsoft Yahei", 微软雅黑, arial,"宋体";background:#fff;-webkit-text-size-adjust:100%;} 
+body{font:16px/1.5 "Microsoft Yahei", 微软雅黑, arial,"宋体";background:#fff;} 
 a{color:#2d374b;} a:hover{text-decoration:underline;color: blue;} em{font-style:normal} 
 li{list-style:none} img{border:0;vertical-align:middle} table{border-collapse:collapse;border-spacing:0} 
 p{word-wrap:break-word}input[type=text]{border: 1px #ccc solid;border-radius: 2px;}
@@ -104,17 +104,18 @@ p{margin: 10px 0px;}.purple{color:#da00ff;}.green{color:#039203;}#tips{position:
 #big_box_scroll{overflow-x: scroll;}
 #font_span{font:600 20px/1.3 '玩蛇','宋体','微软雅黑','Microsoft Yahei',arial;}
 @font-face { 
-font-family:'玩蛇';
-src: url('../images/玩蛇.ttf');
+    font-family:'玩蛇';
+    src: url('../images/玩蛇.ttf') ;
+    src:url('../images/wanshe_ie.eot');
 }
 #word-break_k{display: inline-block;width: 150px;word-break: keep-all;border: 1px solid #000;}
 #word-break_b{display: inline-block;width: 150px;word-break: break-all;border: 1px solid #000;}
 #oldposition{width: 50px;height: 50px;border: 1px dashed #000;}
 #tranform{width: 50px;height: 50px;background-color: #99ff33;
-            transform: translate(380px,-35px) scale(1.5) rotate(60deg);
-            -moz-transform: translate(380px,-35px) scale(1.5) rotate(60deg);
-            -ms-transform: translate(380px,-35px) scale(1.5) rotate(60deg);
-            -webkit-transform: translate(380px,-35px) scale(1.5) rotate(60deg);}
+          transform: translate(380px,-35px) scale(1.5) rotate(60deg);
+          -moz-transform: translate(380px,-35px) scale(1.5) rotate(60deg);
+          -ms-transform: translate(380px,-35px) scale(1.5) rotate(60deg);
+          -webkit-transform: translate(380px,-35px) scale(1.5) rotate(60deg);}
 #transition{width: 50px;height: 50px;background-color: #FF7F00;
             transition: width,height,2s ,ease-in-out ,0s;
             -webkit-transition: width,height,2s ,ease-in-out ,0s;
@@ -122,13 +123,17 @@ src: url('../images/玩蛇.ttf');
             -ms-transition: width,height,2s ,ease-in-out ,0s;
             -o-transition: width,height,2s ,ease-in-out ,0s;}
 #transition:hover{width: 100px;height: 100px;}
-
-
-
-
-
-
-
+.box-sizing{width: 100px;height: 100px;overflow: hidden;padding: 10px;border: 5px solid #33ff66;text-align: center;}
+.content-box p{margin: 38px auto;}
+.border-box p{margin: 11px auto;}
+.content-box{box-sizing: content-box;float: left;}
+.border-box{box-sizing: border-box;float: left;margin-left: 20px;}
+#before::before{content: "prefix-";color:#FF7F00;font-size: 20px;font-weight: 600;margin-right: 10px;}
+#after::after{content: "-end";color:red;font-size: 20px;font-weight: 600;margin-left: 10px;}
+#selection::selection{color:red;}
+#selection::-moz-selection{color:red;}
+#text-indent{text-indent: 2rem;width: 200px;border:1px dashed #000;}
+#strict_mode li{list-style-type:decimal;margin-left: 1.5em;}
 
 
 
