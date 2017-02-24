@@ -3,8 +3,3 @@
  <#人物 = "buff" >
  <#备注 = " ">     */
 "use strict";
-        [1, 2, 3].map(x => x * x);
-     var a=   {
-        "presets":['es2015'],
-                "plugins":[]
-                };

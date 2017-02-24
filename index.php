@@ -123,6 +123,7 @@ require('include/header.inc.php');
             <span class='blue  mar_l_30'>novalidate='novalidate'<br/></span>
             <span>不进行格式验证,比如表单内有email 格式的,如果设置不验证,随便怎么输入都能发送出去 <br/></span>
             <span><span class='blue mar_l_30'>target</span> 目标的打开位置,_blank,_parent,或者框架名等等<br/></span>
+            <span class='purple'>没有name属性的input类型,不能提交<br/></span>
         </p>
         <hr/>
         <p>
@@ -149,6 +150,8 @@ require('include/header.inc.php');
             <span>readonly='readonly'<br/></span>
             <span class="blue mar_l_30">设置内容为必填 </span>
             <span>required='required'<br/></span>
+            <span class="blue mar_l_30">颜色类型 type='color'</span>
+            <span><input type="color" style="width: 50px;" value="#ff0000"/><br/></span>
         </p>
         <hr/>
         <p>
@@ -808,32 +811,262 @@ require('include/header.inc.php');
 
     </div>
 
+    <div id="Javascript_obj">
+        <h3>Javascript 对象</h3>
+        <div>
+            <h4>Array</h4>
+            <p>
+                <span class='red'>Array 数组类型</span>
+                <span class='red'>数组长度 arr.length </span>
+                <span>数组[1,2,3,4]的长度为4 <br/></span>
+                <span>数组定义时里面不能有关联数组,但是可以后加,计算长度时也不会算上关联数组.但是for in循环会遍历出 <br/></span>
+                <span>若当前数组有0,1,2 3个键 此时定义一个100的键,那么4-99都是undefined;<br/></span>
+
+                <span class='red'>数组连接 concat()</span>
+                <span>var arr1=[1,2,3,4],arr2=['b','u','f','f'];arr1.concat(arr2) return=[1,2,3,4,'b','u','f','f']<br/></span>
+                <span class='purple'>连接后会返回一个新的数组,参数可以有多个.<br/></span>
+
+                <span class='red'>数组转换为字符串 join()或toString()</span>
+                <span>以join中定义的分隔符作为参数,将每个数组中的元素分割,默认为逗号.<br/></span>
+                <span>var arr1=['buff','wuwei','xiaokeai'];arr1.join() return 'buff,wuwei,xiaokeai'<br/></span>
+                <span class='purple'>若要把数组完全转换为字符把参数设置为''就可以了,不过就好是设置成逗号空格之类的 <br/></span>
+
+                <span class='red'>删除数组最后一个元素并返回 pop()</span>
+                <span>var arr1=['buff', 'wuwei', 'xiaokeai'];arr1.pop();arr1=['buff', 'wuwei']<br/></span>
+                <span class='purple'>只会删除索引数组,不会删除关联数组<br/></span>
+
+                <span class='red'>数组末尾添加值并返回新的数组长度 push()</span>
+                <span>var arr1=[1];arr1.push('buff','wuweisb');arr1=[1,'buff','wuweisb']<br/></span>
+
+                <span class='red'>数组开头添加值并返回新的数组长度 unshift()()</span>
+                <span>var arr1=[1];arr1.unshift('buff','wuweisb');arr1=['buff','wuweisb',1]<br/></span>
+
+                <span class='red'>颠倒数组元素 reverse()</span>
+                <span>var arr1=[1,2,3,4,5];arr1.reverse();arr1=[5,4,3,2,1];<br/></span>
+
+                <span class='red'>删除并返回数组第一个元素 shift()</span>
+                <span>var arr1=[1,2,3,4,5];arr1.shift();arr1=[2,3,4,5];<br/></span>
+
+
+                <span class='red'>返回数组中的特定元素 slice()</span>
+                <span>var arr1=[1,2,3,4,5];<br/></span>
+                <span>arr1.slice(start,end):start表示从第几个开始选取,-1表示最后一个,-2表示倒2,end表示结束位置.如果没有end一直选择到最后<br/></span>
+                <span>vararr2=arr1.slice(0,2);arr2=[1,2];<br/></span>
+                <span>vararr2=arr1.slice(2);arr2=[3,4,5];<br/></span>
+                <span>vararr2=arr1.slice(-4,4);arr2=[2,3,4];<br/></span>
+                <span class='purple'>这里end表示的是在此下标之前的,slice(0,2)表示从0到下标2之间的元素,不包括下标2,<br/>
+                    若要选定到数组最后则要用末尾下标加一或者不写end <br/></span>
+
+                <span class='red'>数组批量执行函数 排序 sort()</span>
+                <span> sort() 默认是对参数先转换为string,然后比较.小写字符排在大写字母的后面 <br/></span>
+                <span>也可以接收回调函数,接受2个参数。</span>
+                <span class='purple'>对数组进行sort()将会改变原数组,并且会返回原数组的结果<br/></span>
+                <span>var arr1=['apple','orange','banner'];arr1.sort();arr1=['apple','banner','orange']<br/></span>
+
+                <span class='red'>数组特定位置添加/删除函数 splice()</span>
+                <span> arr.splice(index,howmany,item1,.....,itemX)<br/></span>
+                <span>var arr1=[1,2,3,4,5];arr2=['buff'];arr1.splice(2,0,arr2[0]);arr1=[1,2,'buff',3,4,5]<br/></span>
+                <span class='purple'>不希望删除元素则将数量设置为0;第三个参数设置为数组的话,那么会将数组作为对象传入arr1中,即arr1[2]=['buff'];<br/></span>
+
+                <span class='red'>返回对象原始值 valueOf()</span>
+                <span>var arr1=[1];var arr2=new Array(1); arr1.valueOf()为数组[1]<br/></span>
+                <span class="green">但是谷歌浏览器里面显示arr2.valueOf()为undefined中包含一个数组,这个可能对数组作用不大<br/></span>
+
+                <span class='red'>循环遍历对象/数组 for in</span>
+                <span class="purple">遍历数组时 返回键时是以字符串形式输出,即'0','1','2' <br/></span>
+                <span class='red'>数组批量执行函数 map()</span>
+                <span>arr.map(fun);接受一个参数,对数组中的每一个元素执行fun函数,然后返回一个新的数组.<br/></span>
+                <span class='red'>数组批量执行函数 reduce()</span>
+                <span>arr.map(fun);接受2个参数,先对参数1和2执行fun函数,然后用前面的结果和参数3执行fun函数...<br/></span>
+                <span>一直到执行最后然后返回一个新的数组.<br/></span>
+                <span class='red'>数组批量执行函数 过滤 filter()</span>
+                <span> filter(fun(element[,index[,obj]])) 对arr的每一个参数执行fun函数.<br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Boolean</h4>
+            <p>
+                <span class='red'>Boolean 布尔类型</span>
+                <span>Boolean转换函数 Boolean(value)<br/></span>
+                <span>var bool=1,bool2=Boolean(bool); bool2=true;<br/></span>
+                <span>null、undefined、0、NaN和空字符串''视为false，其他值一概视为true <br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Date</h4>
+            <p>
+                <span class="red">日期 Date</span>
+                <span>var now=new Date();<br/></span>
+                <span class='mar_l_30'>now;  Fri Feb 24 2017 00:12:02 GMT+0800 (中国标准时间)<br/></span>
+                <span class='mar_l_30'>now.getFullYear();  2017, 年份<br/></span>
+                <span class='mar_l_30'>now.getMonth();  1, 月份，注意月份范围是0~11，1表示2月<br/></span>
+                <span class='mar_l_30'>now.getDate();  24, 表示24号<br/></span>
+                <span class='mar_l_30'>now.getDay();  5, 表示星期五<br/></span>
+                <span class='mar_l_30'>now.getHours();  0, 24小时制<br/></span>
+                <span class='mar_l_30'>now.getMinutes(); 12, 分钟<br/></span>
+                <span class='mar_l_30'>now.getSeconds(); 02, 秒<br/></span>
+                <span class='mar_l_30'>now.getMilliseconds();  772, 毫秒数<br/></span>
+                <span class='mar_l_30'>now.getTime();  1487866322772, 以number形式表示的时间戳<br/></span>
+                <span class='purple'>返回的时间是本机操作系统的时间,不一定准确</span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Math</h4>
+            <p>
+                <span class='red'>Math 数学函数类型<br/></span>
+                <span class="blue mar_l_30">圆周率 </span>
+                <span>Math.PI:3.141592653589793<br/></span>
+                <span class="blue mar_l_30">绝对值 </span>
+                <span>Math.abs(-2):2<br/></span>
+                <span class="blue mar_l_30">余弦值 </span>
+                <span>Math.cos(Math.PI):-1<br/></span>
+                <span class="blue mar_l_30">正弦值 </span>
+                <span>Math.sin(Math.PI/6):0.49999<br/></span>
+                <span class="blue mar_l_30">正切值 </span>
+                <span>Math.tan(0.5):0.54630248<br/></span>
+                <span class="blue mar_l_30">上舍入 </span>
+                <span>Math.ceil(1.4):2<br/></span>
+                <span class="blue mar_l_30">下舍入 </span>
+                <span>Math.floor(1.4):1<br/></span>
+                <span class="blue mar_l_30">x的y次幂 </span>
+                <span>Math.pow(2,3):8<br/></span>
+                <span class="blue mar_l_30">0-1随机数 </span>
+                <span>Math.random():0-1<br/></span>
+                <span class="blue mar_l_30">四舍五入为整数 </span>
+                <span>Math.round(-3.5):-3<br/></span>
+                <span class="blue mar_l_30">平方根 </span>
+                <span>Math.sqrt(9):3<br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Number</h4>
+            <p>
+                <span class='red'>Number 数字类型</span>
+                <span class="blue mar_l_30">NaN</span>
+                <span>表示不是一个数字,无法返回数字结果就返回这个.<br/></span>
+                <span class='purple mar_l_30'>NaN无法与任何数相比,能判断是否为NaN的方法是isNaN()函数<br/></span>
+                <span class="blue mar_l_30">无限大 Infinity <br/></span>
+                <span class="blue mar_l_30">返回固定位数小数 toFixed(n)</span>
+                <span>var num1=13.46;num1.toFixed(1)=13.5; 小数位数为0-20 不写就是0 <br/></span>
+                <span class="blue mar_l_30">返回指数形式  toExponential(n)</span>
+                <span>var num1=10000;num1.toExponential(2)=1.00e+4; 小数位数为0-20 不写就是0 <br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>String</h4>
+            <p>
+                <span class='red'>String 字符串类型</span>
+                <span class='red'>多行字符串 </span>
+                <span>在换行处加\表示接着下一行的字符串<br/></span>
+                <span class='red'>模板字符串 </span>
+                <span> 'some staements'+a+b =`some statements${a}${b}`</span>
+                <span class="purple">但是ie和safrai不支持 <br/></span>
+                <span class='red'>字符串内容选择 str[n] </span>
+                <span>选择字符串中的单个字符 str[0]就是第一个字符, 但是str[0]='x' 并不有效 <br/></span>
+                <span class='red'>字符串长度 str.length <br/></span>
+                <span class='red'>字符串连接 str.concat(str1,2,3,..) <br/></span>
+                <span class='red'>字符串首次出现位置 str.indexOf() </span>
+                <span>var str1='buffge';str1.indexOf('f') 返回值为2;也可以设置第2个参数,是开启检索位置<br/></span>
+                <span class='red'>字符串检索(正则表达式值) str.match(reg) </span>
+                <span>var str1='ddf124g234hda34sf34sg321',str2=str1.match(/\d{3}/g); str2=['124','234','321']<br/></span>
+                <span class='purple'>这里返回的是数组,值为字符串 <br/></span>
+                <span class='red'>字符串替换(正则表达式值) str.replace(reg,'str'or fun) <br/></span>
+                <span>var str1='ddf124g234hda34sf34sg321',str2=str1.repacle(/\d{3}/g,add); add为数字加1函数,此时str2中的124变为125..<br/></span>
+                <span class='red'>字符串搜索(正则表达式值) str.search(reg) </span>
+                <span>var str1='buffge',str2=str1.search(/ge/); str2=4;<br/></span>
+                <span class='purple'>search忽略g标签,总是从字符串的开始进行搜索,将返回字符串首次出现的位置,未出现则返回-1</span>
+                <span class='red'>提取字符串的一部分 str.slice(start,end) </span>
+                <span>var str1 = 'buffge', str2 = str1.slice(2,4); str2='ff';<br/></span>
+                <span class='red'>提取字符串的一部分 str.substr(start,length) </span>
+                <span>var str1 = 'buffge', str2 = str1.substr(2,3); str2='ffg';<br/></span>
+                <span class='purple'>从开始下标开始提取,但是不包括结束下标.(2,4)表示从下标2-下标4但是不包括下标4,即2和3<br/></span>
+                <span class='red'>字符串分割函数 str.split()</span>
+                <span>"2:3:4:5".split(":");将返回["2", "3", "4", "5"]<br/></span>
+                <span class='red'>字符串小写 str.toLowerCase()</span>
+                <span class='red'>字符串大写 str.toUpperCase()</span>
+
+
+
+                <script>
+                    "use strict";
+                    var str1 = 'buffge', str2 = str1.slice(2, 4);
+
+                </script>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Regexp</h4>
+            <p>
+                <span class='red'>正则表达式 Regexp</span>
+                <span>var exp='/statements/';<br/></span>
+                <span class="blue mar_l_30">test()</span>
+                <span>exp.test(a);验证a是否符合exp <br/></span>
+                <span class="blue mar_l_30">split()</span>
+                <span>a.split(exp);按照exp的间隔符分割a,并返回一个新的数组 ,内含被分隔符分割的每个元素<br/></span>
+                <span class="blue mar_l_30">exec()</span>
+                <span>var b=exp.exec(a);按照exp的间隔符将a分组,并返回一个新的数组 ,b[0]为匹配到的字符串,b[1]为组1...,失败返回null<br/></span>
+                <span class="red">i:忽略大小写,g全局匹配,m多行匹配</span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Global</h4>
+            <p>
+                <span class='red'>Global 全局类型</span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Map</h4>
+            <p>
+                <span class='red'>Map 键值对类型</span>
+                <span class='red'>数据类型Map</span>
+                <span>map表示一组键值对 初始化要建一个二维数组 var test=new Map([['a','buff'],['sb','wuwei']])<br/></span>
+                <span class="blue mar_l_30">方法 get()返回对应键的值 set()设置 has()是否拥有某键 delete删除键 <br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>Set</h4>
+            <p>
+                <span class='red'>Set 键类型</span>
+                <span class='red'>数据类型 key集合 Set</span>
+                <span>Set中的key不能重复 初始化需要数组 var test=new Set([1,'fsdf',3,'3'])<br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>iterable</h4>
+            <p>
+                <span class='red'>iterable 重复类型<br/></span>
+                <span>可以使用for...of array map 和set都属于iterable类型.for of只返回数组本身,不返回关联数组以及对象属性 <br/></span>
+            </p><hr/>
+        </div>
+
+        <div>
+            <h4>generator</h4>
+            <p>
+                <span class='red'>生成器类型 generator</span>
+                <span>使用生成器函数 function* 结果返回一个generator对象.<br/></span>
+                <span>每次yield 以及最后的return都会在对象中添加一个对象.对象有2个参数(value:..,done:true|false)<br/></span>
+                <span>true表示return的对象,false表示yield返回的对象<br/></span>
+            </p><hr/>
+        </div>
+    </div>
+
     <div>
-        <p>
-            <span class='red'>Number类型 <br/></span>
-            <span class="blue">NaN</span>
-            <span>表示不是一个数字,无法返回数字结果就返回这个.</span>
-            <span class='purple'>NaN无法与任何数相比,能判断是否为NaN的方法师isNaN()函数<br/></span>
-            <span class="blue">无限大 Infinity <br/></span>
-        </p>
         <p>
             <span class='red'>null和''的区别</span>
             <span>null 表示空,''表示长度为0的字符串,undefined表示未定义.<br/></span>
             <span>大多数时间应该用null,undefined仅仅在判断函数参数是否传递的情况下有用。</span>
         </p>
         <p>
-            <span class='red'>数组长度 arr.length</span>
-            <span>数组定义时里面不能有关联数组,但是可以后加,计算长度时也不会算上关联数组.但是for in循环会遍历出 <br/></span>
-            <span>若当前数组有0,1,2 3个键 此时定义一个100的键,那么4-99都是undefined;</span>
-        </p>
-        <p>
-            <span class='red'>多行字符串 </span>
-            <span>在换行处加\表示接着下一行的字符串<br/></span>
-            <span class='red'>模板字符串 </span>
-            <span> 'some staements'+a+b =`some statements${a}${b}`</span>
-            <span class="purple">但是ie和safrai不支持 <br/></span>
-            <span class='red'>字符串内容选择 str[n] </span>
-            <span>选择字符串中的单个字符 str[0]就是第一个字符, 但是str[0]='x' 并不有效 <br/></span>
             <span class='red'>对象中属性选择 <br/></span>
             <span>一般的对象定义属性名不要用''包起来,但是如果属性有特殊字符,必须要用''包起来,比如'last-name'<br/></span>
             <span>选择对象的一个属性 obj.lastname 选择特殊符号属性的时候用obj['last-name']<br/></span>
@@ -842,38 +1075,39 @@ require('include/header.inc.php');
             <span class='red'>检测对象中是否存在某属性 in</span>
             <span>'name' in p1; return true;<br/></span>
             <span class='purple'>有时候有些属性时继承的,这时候可以用p1.hasOwnProperty('name');检测自己的属性 <br/></span>
-            <span class='red'>为false的值 </span>
-            <span>null、undefined、0、NaN和空字符串''视为false，其他值一概视为true <br/></span>
-            <span class='red'>循环遍历对象数组 for in</span>
-            <span class="purple">遍历数组时 返回键时是以字符串形式输出,即'0','1','2' <br/></span>
-            <span class='red'>数据类型Map</span>
-            <span>map表示一组键值对 初始化要建一个二维数组 var test=new Map([['a','buff'],['sb','wuwei']])<br/></span>
-            <span class="blue mar_l_30">方法 get()返回对应键的值 set()设置 has()是否拥有某键 delete删除键 <br/></span>
-            <span class='red'>数据类型 key集合 Set</span>
-            <span>Set中的key不能重复 初始化需要数组 var test=new Set([1,'fsdf',3,'3'])<br/></span>
-            <span class='red'>iterable类型 重复类型<br/></span>
-            <span>可以使用for...of array map 和set都属于iterable类型.for of只返回数组本身,不返回关联数组以及对象属性 <br/></span>
+
             <span class='red'>块级作用域let</span>
-            <span>在for if语句中定义,出去就失效了 <br/></span>
+            <span>在for if语句中定义,   出去就失效了 <br/></span>
             <span class='red'>常量定义const</span>
             <span>const也有快捷作用域<br/></span>
-            
-            
-            
-            
-            
-            
-            
-        </p>
+            <span class='red'>箭头函数 =></span>
+            <span>var a=x=>x+1;相当于var a=function(x){return ++x;};<br/></span>
+            <span class='purple'>箭头函数内部this 指向当前对象 比如函数内部的匿名函数再使用this时候就指向window或者undefined 用=>则指向对象 <br/></span>
+            <span class="red">null和array[]和{}都是object <br/></span>
+            <span>typeof操作符可以判断出number、boolean、string、function和undefined；<br/></span>
+            <span>判断Array要使用Array.isArray(arr)；<br/></span>
+            <span>判断null请使用myVar === null；<br/></span>
+            <span>判断某个全局变量是否存在用typeof window.myVar === 'undefined'；<br/></span>
+            <span>函数内部判断某个变量是否存在用typeof myVar === 'undefined'。<br/></span>
+            <span class='purple'>typeof 123=number 如果var a=new Number(123).那么typeof a=object <br/></span>
+        </p><hr/>
     </div>
+
+    <div id="Browser_obj">
+        <h3>浏览器 对象</h3>
+    </div>
+    <div id="HtmlDom_obj">
+        <h3>文档结构模型DOM 对象</h3>
+    </div>
+
+
+
+
 
 
 
 </div>
 <script>
-    "use strict";
-    var test = new Map([['a', 'buff'], ['sb', 'wuwei']]);
-    console.log(test.get('a'));
 
 </script>
 
