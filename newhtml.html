@@ -1,0 +1,4749 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="Movable Type  5.2.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="http://www.ruanyifeng.com/blog/styles.css" type="text/css" />
+<link rel="start" href="http://www.ruanyifeng.com/blog/" title="Home" />
+<link rel="alternate" type="application/atom+xml" title="Recent Entries" href="http://feeds.feedburner.com/ruanyifeng" />
+<script type="text/javascript" src="http://www.ruanyifeng.com/blog/mt.js"></script>
+<!--
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<Work rdf:about="http://www.ruanyifeng.com/blog/2011/09/restful.html">
+<dc:title>理解RESTful架构</dc:title>
+<dc:description>越来越多的人开始意识到，网站即软件，而且是一种新型的软件。...</dc:description>
+<dc:creator>阮一峰</dc:creator>
+<dc:date>2011-09-12T15:53:26+08:00</dc:date>
+<license rdf:resource="http://creativecommons.org/licenses/by-nc-nd/3.0/" />
+</Work>
+<License rdf:about="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+</License>
+</rdf:RDF>
+-->
+
+
+    
+    <link rel="prev" href="http://www.ruanyifeng.com/blog/2011/08/just_a_kiss.html" title="Just A Kiss 的 MV" />
+    <link rel="next" href="http://www.ruanyifeng.com/blog/2011/08/cooking_technology_innovation_movement.html" title="做饭技术革新运动" />
+    
+    <title>jQuery的deferred对象详解 - 阮一峰的网络日志</title>
+</head>
+<body id="scrapbook" class="mt-entry-archive one-column">
+<script>
+if (/mobile/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) document.body.classList.add('mobile');
+
+window.addEventListener('load', function(event) {
+  setTimeout(function () {
+    hab('#sup-post-2');
+    hab('#gd1-inner');
+  }, 1000);
+});
+</script>
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="header">
+    <div id="header-inner">
+        <div id="header-content">
+
+
+            <div id="header-name">阮一峰的网络日志 <span id="site_location"> » <a href="http://www.ruanyifeng.com/blog/" accesskey="1">首页</a></span><span id="site_archive"> » <a href="http://www.ruanyifeng.com/blog/archives.html">档案</a></span>
+</div>
+
+<div id="google_search">
+<!-- SiteSearch Google -->
+<form action="http://www.ruanyifeng.com/blog/search.html" id="cse-search-box">
+      <div>
+        <input type="hidden" name="cx" value="016304377626642577906:b_e9skaywzq" />
+    <input type="hidden" name="cof" value="FORID:11" />
+    <input type="hidden" name="ie" value="UTF-8" />
+        <input type="text" name="q" size="20" class="searchbox" id="sbi" value=""/>
+        <input type="image" src="/static/themes/theme_scrapbook/images/top_search_submit.gif" class="searchbox_submit" value="" alt="搜索" name="sa"/>
+      </div>
+    </form>
+<!-- SiteSearch Google -->
+</div>
+<div id="feed_icon">
+<a href="/feed.html" title="订阅Feed">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAUzSURBVHjavFdbbFRVFF3nPjoz7dTWTittaW0jUDRAUqaNojyqREnEQKgfUj9MqqAmhqRt/OCD4CuY+Kckoh+aiGKC+gMJbdHoRysJ8dkhhmJLNdDKtJU+6GMK87j3Hs85d2Z6HzNtMYWb3Dn3NWftvfba+5xNYDl+e6Fkj6yqb/oDRbWq14vlPBLRKCITkxf0ROLt+hNjp1PPSRK4kA3vF1dXNRcWlyA2OQU9eos9opAkAiKxD+XkKO6t15aRWO7J/MgmAZU8MEgexgZHMX518Dh72sYMmVKShnxWuWHdHtxKIDIYTgMuDzgfmSOIQkYMpdUF8OY92Hytt4/jvkg47czzU16iQovM3QFwmNck+Yyduu7D6NA0Z6JR4THntFs9V4tWQg6Ui3s6MwKDncsFTnXKLJhDSeUK3AgPtyhccDzmVs999buRt/1Vm4i0od+hX7+MRG87jPGB/w1u8FPj9xEw7McVrnYuOCvtpjTth3J/nTg99c8LRhKhr6D3dTB5R24bXFwbMXBsyZzeoXaycEpJ95TB09AGX/NpqLVNtw8urnVzLvHjFNxiFqRy2OOHuqUVnue+ACkoWzo4O6lGzTmuHq6nPvY2m9rVqjrIK2rMEKxqyG5NPAKt+wjo0LklgfNxJkZMA3KJvqRUk3z5UFY3QH14P0h+WUY79HPvgv7VuSg4ZRGY1YgZgqXmORccF17sy2ehnf9AeO085K2HQFbtXBScj0LcpgF2cN+WV+DZ/LJQu6gD4R7oV7pBJwbSgtMvfiPoVp56DySwxm7EtkMs1WdAB7qzggsDJKQYsHucSkOudrkiCPWR/fA2nYCn8SNIK4NptSMyAu3sAdDRkIsJdfth0LzSrODUoPNZ4KI9SxJI5UHk7D4GdQfz2us31c7CoHMjRkKuDPHseCMrONVhNcDJwMJpKFVvg9L4OaTiNWm1x789KCqkrXhVBiEz0WYCT2nAzQAD1/vaETv1GrRfP4Vx5cfMNcDPwvP0h0DhanPym7OIf/+O67vcJ1/PCJ4KgdzaUP6Wz+dU+5yIL6fV+PsHGAOdwlPpvvUOyeeAVGyCdqkDNB6DPjsBSrnndfOGevOh3RhGItxvA+fX1CtbGFhgYUFkFMZPR6F1HnClHq8HyubWtJexX06CRmdt33hrd7nA7SFY4qoGpnYuOKcRykPPgDCBcsHx9Iv+fNL2PueBehCWUfYQIIMGLOCcOmXDXsh1+yCt35tUPfvzGFuSvzvoinXOxqa02qOhM6733nVP2MAdaej2XN11DPKjLZCD+yBvahGCo7JfTKAN9UD7s8Oe9zUNIhz8fWI8DG2k38WCFdxugANcXrvTVd1IEbuv3Jour7Hzn7jLMBNfKs7R3i67gRVrbeCOEDhinmWhAatsqdquM2XzHZINhK2cqTjHr/XZdVJUbgN3MWAVXKbSyg9jesRW2xP9di+lwrL5ojM3m2H/kG9hwcIA37c71W6wJdW2J2S5nrjYbq/t1AHAhJsKQeyfPvf6IMJgghPJhFZ4x0KlfLFvt22du45Au/A1SOlGc0P672XXwhLtOcM0kTTEMMd0qkVmMNXxMd/tsedUjInr4SQDgOfeXMSiN0FCL5WHah4L1qqYXPJOJlttd+a5M+YpcG5poLYKQ5f+6JJ4r8bbJYP47hq4r7QAs9PjYNhHJd4o8l5taiwuOpa7AS4XKqI/5NjJbTnaWK92nLdLuhQAJayRNMiygXPBeQN+Qbvu0zDc3y+aUzhbkGR73sI7ljvUnndx2q3t+X8CDAD66FtrIL864AAAAABJRU5ErkJggg==" alt="" style="border: 0pt none;" />
+</a></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+            <div id="content">
+                <div id="content-inner">
+
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+
+                            <div id="entry-1665" class="entry-asset asset hentry">
+                                <div class="asset-header">
+<div class="asset-nav entry-nav">
+
+<div class="entry-location">
+<ul>
+<li>上一篇：<a href="http://www.ruanyifeng.com/blog/2011/08/just_a_kiss.html" title="Just A Kiss 的 MV">Just&nbsp;A&nbsp;Kiss</a></li>
+<li>下一篇：<a href="http://www.ruanyifeng.com/blog/2011/08/cooking_technology_innovation_movement.html" title="做饭技术革新运动">做饭技术革新运动&nbsp;&nbsp;&nbsp;</a></li>
+</ul>
+</div>
+
+
+    
+                                    <div class="entry-categories">
+                                        <p>分类<span class="delimiter">：</span></p>
+                                        <ul>
+                                            <li><a href="http://www.ruanyifeng.com/blog/javascript/" rel="tag">JavaScript</a></li>
+                                        </ul>
+                                    </div>
+    
+
+
+                                            
+</div>
+                                </div>
+<article class="hentry">
+                                    <h1 id="page-title" class="asset-name entry-title">jQuery的deferred对象详解</h1>
+                                            <div id="share_button" style="float:right;padding-right:2em;padding-top:1em;"></div>
+                                    <div class="asset-meta">
+                                        
+
+                                            <p class="vcard author">作者： <a class="fn url" href="http://www.ruanyifeng.com">阮一峰</a></p>
+                                    <p>日期： <a href="http://www.ruanyifeng.com/blog/2011/08/"><abbr class="published" title="2011-08-16T23:26:32+08:00">2011年8月16日</abbr></a></p>
+
+
+                                    </div>
+                                
+                                <div class="asset-content entry-content" id="main-content">
+
+                                    <!-- div class="asset-body" -->
+                                        <p><a href="http://jquery.com/">jQuery</a>的开发速度很快，几乎每半年一个大版本，每两个月一个小版本。</p>
+                                    <!-- /div -->
+
+
+                                    <!-- div id="more" class="asset-more" -->
+                                        <p>每个版本都会引入一些新功能。今天我想介绍的，就是从jQuery 1.5.0版本开始引入的一个新功能----<a href="http://api.jquery.com/category/deferred-object/">deferred对象</a>。</p>
+
+<p>这个功能很重要，未来将成为jQuery的核心方法，它彻底改变了如何在jQuery中使用ajax。为了实现它，jQuery的全部ajax代码都被改写了。但是，它比较抽象，初学者很难掌握，网上的教程也不多。所以，我把自己的学习笔记整理出来了，希望对大家有用。</p>
+
+<p>本文不是初级教程，针对的读者是那些已经具备jQuery使用经验的开发者。如果你想了解jQuery的基本用法，请阅读我编写的<a href="http://www.ruanyifeng.com/blog/2011/07/jquery_fundamentals.html">《jQuery设计思想》</a>和<a href="http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html">《jQuery最佳实践》</a>。</p>
+
+<p>======================================</p>
+
+<p><strong>jQuery的deferred对象详解</strong></p>
+
+<p>作者：阮一峰</p>
+
+<p><img src="http://image.beekka.com/blog/201108/bg2011081601.jpg" /></p>
+
+<p><strong>一、什么是deferred对象？</strong></p>
+
+<p>开发网站的过程中，我们经常遇到某些耗时很长的javascript操作。其中，既有异步的操作（比如ajax读取服务器数据），也有同步的操作（比如遍历一个大型数组），它们都不是立即能得到结果的。</p>
+
+<p>通常的做法是，为它们指定回调函数（callback）。即事先规定，一旦它们运行结束，应该调用哪些函数。</p>
+
+<p>但是，在回调函数方面，jQuery的功能非常弱。为了改变这一点，jQuery开发团队就设计了<a href="http://api.jquery.com/category/deferred-object/">deferred对象</a>。</p>
+
+<p><strong>简单说，deferred对象就是jQuery的回调函数解决方案。</strong>在英语中，defer的意思是"延迟"，所以deferred对象的含义就是"延迟"到未来某个点再执行。</p>
+
+<p>它解决了如何处理耗时操作的问题，对那些操作提供了更好的控制，以及统一的编程接口。它的主要功能，可以归结为四点。下面我们通过示例代码，一步步来学习。</p>
+
+<p><strong>二、ajax操作的链式写法</strong></p>
+
+<p>首先，回顾一下jQuery的ajax操作的传统写法：</p>
+
+<blockquote>
+
+<p>　　$.ajax({</p>
+
+<p>　　　　url: "test.html",</p>
+
+<p>　　　　success: function(){<br />
+　　　　　　alert("哈哈，成功了！");<br />
+　　　　},</p>
+
+<p>　　　　error:function(){<br />
+　　　　　　alert("出错啦！");<br />
+　　　　}</p>
+
+<p>　　});</p>
+
+<p>（运行<a href="http://jsfiddle.net/ruanyf/pdQYH/">代码示例1</a>）</p>
+
+</blockquote>
+
+<p>在上面的代码中，$.ajax()接受一个对象参数，这个对象包含两个方法：success方法指定操作成功后的回调函数，error方法指定操作失败后的回调函数。</p>
+
+<p>$.ajax()操作完成后，如果使用的是低于1.5.0版本的jQuery，返回的是XHR对象，你没法进行链式操作；如果高于1.5.0版本，返回的是deferred对象，可以进行链式操作。</p>
+
+<p>现在，新的写法是这样的：</p>
+
+<blockquote>
+
+<p>　　$.ajax("test.html")</p>
+
+<p>　　<strong>.done(function(){ alert("哈哈，成功了！"); })</strong></p>
+
+<p>　　<strong>.fail(function(){ alert("出错啦！"); });</strong></p>
+
+<p>（运行<a href="http://jsfiddle.net/ruanyf/dYKLJ/">代码示例2</a>）</p>
+
+</blockquote>
+
+<p>可以看到，<a href="http://api.jquery.com/deferred.done/">done()</a>相当于success方法，<a href="http://api.jquery.com/deferred.fail/">fail()</a>相当于error方法。采用链式写法以后，代码的可读性大大提高。</p>
+
+<p><strong>三、指定同一操作的多个回调函数</strong></p>
+
+<p>deferred对象的一大好处，就是它允许你自由添加多个回调函数。</p>
+
+<p>还是以上面的代码为例，如果ajax操作成功后，除了原来的回调函数，我还想再运行一个回调函数，怎么办？</p>
+
+<p>很简单，直接把它加在后面就行了。</p>
+
+<blockquote>
+
+<p>　　$.ajax("test.html")</p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！");} )</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); } )</p>
+
+<p>　　<strong>.done(function(){ alert("第二个回调函数！");} );</strong></p>
+
+<p>（运行<a href="http://jsfiddle.net/ruanyf/sQYjs/">代码示例3</a>）</p>
+
+</blockquote>
+
+<p>回调函数可以添加任意多个，它们按照添加顺序执行。</p>
+
+<p><strong>四、为多个操作指定回调函数</strong></p>
+
+<p>deferred对象的另一大好处，就是它允许你为多个事件指定一个回调函数，这是传统写法做不到的。</p>
+
+<p>请看下面的代码，它用到了一个新的方法<a href="http://api.jquery.com/jQuery.when/">$.when()</a>：</p>
+
+<blockquote>
+
+<p>　　<strong>$.when($.ajax("test1.html"), $.ajax("test2.html"))</strong></p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>（运行<a href="http://jsfiddle.net/ruanyf/CdKjn/">代码示例4</a>）</p>
+
+</blockquote>
+
+<p>这段代码的意思是，先执行两个操作$.ajax("test1.html")和$.ajax("test2.html")，如果都成功了，就运行done()指定的回调函数；如果有一个失败或都失败了，就执行fail()指定的回调函数。</p>
+
+<p><strong>五、普通操作的回调函数接口（上）</strong></p>
+
+<p>deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作----不管是ajax操作还是本地操作，也不管是异步操作还是同步操作----都可以使用deferred对象的各种方法，指定回调函数。</p>
+
+<p>我们来看一个具体的例子。假定有一个很耗时的操作wait：</p>
+
+<blockquote>
+
+<p>　　var wait = function(){</p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);</p>
+
+<p>　　};</p>
+
+</blockquote>
+
+<p>我们为它指定回调函数，应该怎么做呢？</p>
+
+<p>很自然的，你会想到，可以使用$.when()：</p>
+
+<blockquote>
+
+<p>　　$.when(wait())</p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>（运行<a href="http://jsfiddle.net/5wzrt/">代码示例5</a>）</p>
+
+</blockquote>
+
+<p>但是，这样写的话，done()方法会立即执行，起不到回调函数的作用。原因在于$.when()的参数只能是deferred对象，所以必须对wait()进行改写：</p>
+
+<blockquote>
+
+<p>　　var dtd = $.Deferred(); // 新建一个deferred对象</p>
+
+<p>　　var wait = function(dtd){</p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　　　<strong>dtd.resolve();</strong> // 改变deferred对象的执行状态</p>
+
+<p>　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);</p>
+
+<p>　　　　<strong>return dtd;</strong></p>
+
+<p>　　};</p>
+
+</blockquote>
+
+<p>现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。</p>
+
+<blockquote>
+
+<p>　　$.when(wait(dtd))</p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>（运行<a href="http://jsfiddle.net/gfFPj/">代码示例6</a>）</p>
+
+</blockquote>
+
+<p>wait()函数运行完，就会自动运行done()方法指定的回调函数。</p>
+
+<p><strong>六、deferred.resolve()方法和deferred.reject()方法</strong></p>
+
+<p>如果仔细看，你会发现在上面的wait()函数中，还有一个地方我没讲解。那就是<a href="http://api.jquery.com/deferred.resolve">dtd.resolve()</a>的作用是什么？</p>
+
+<p>要说清楚这个问题，就要引入一个新概念"执行状态"。jQuery规定，deferred对象有三种执行状态----未完成，已完成和已失败。如果执行状态是"已完成"（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是"已失败"，调用fail()方法指定的回调函数；如果执行状态是"未完成"，则继续等待，或者调用<a href="http://api.jquery.com/deferred.progress/">progress()</a>方法指定的回调函数（jQuery1.7版本添加）。</p>
+
+<p>前面部分的ajax操作时，deferred对象会根据返回结果，自动改变自身的执行状态；但是，在wait()函数中，这个执行状态必须由程序员手动指定。dtd.resolve()的意思是，将dtd对象的执行状态从"未完成"改为"已完成"，从而触发done()方法。</p>
+
+<p>类似的，还存在一个<a href="http://api.jquery.com/deferred.reject">deferred.reject()</a>方法，作用是将dtd对象的执行状态从"未完成"改为"已失败"，从而触发fail()方法。</p>
+
+<blockquote>
+
+<p>　　var dtd = $.Deferred(); // 新建一个Deferred对象</p>
+
+<p>　　var wait = function(dtd){</p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　　　<strong>dtd.reject(); // 改变Deferred对象的执行状态</strong></p>
+
+<p>　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);</p>
+
+<p>　　　　return dtd;</p>
+
+<p>　　};</p>
+
+<p>　　$.when(wait(dtd))</p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>（运行<a href="http://jsfiddle.net/bhDjd/">代码示例7</a>）</p>
+
+</blockquote>
+
+<p><strong>七、deferred.promise()方法</strong></p>
+
+<p>上面这种写法，还是有问题。那就是dtd是一个全局对象，所以它的执行状态可以从外部改变。</p>
+
+<p>请看下面的代码：</p>
+
+<blockquote>
+
+<p>　　var dtd = $.Deferred(); // 新建一个Deferred对象</p>
+
+<p>　　var wait = function(dtd){</p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　　　dtd.resolve(); // 改变Deferred对象的执行状态</p>
+
+<p>　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);</p>
+
+<p>　　　　return dtd;</p>
+
+<p>　　};</p>
+
+<p>　　$.when(wait(dtd))</p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>　　<strong>dtd.resolve(); </strong></p>
+
+<p>（运行<a href="http://jsfiddle.net/nBFse/">代码示例8</a>）</p>
+
+</blockquote>
+
+<p>我在代码的尾部加了一行dtd.resolve()，这就改变了dtd对象的执行状态，因此导致done()方法立刻执行，跳出"哈哈，成功了！"的提示框，等5秒之后再跳出"执行完毕！"的提示框。</p>
+
+<p>为了避免这种情况，jQuery提供了<a href="http://api.jquery.com/deferred.promise/">deferred.promise()</a>方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被改变。</p>
+
+<p>请看下面的代码：</p>
+
+<blockquote>
+
+<p>　　var dtd = $.Deferred(); // 新建一个Deferred对象</p>
+
+<p>　　var wait = function(dtd){</p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　　　dtd.resolve(); // 改变Deferred对象的执行状态</p>
+
+<p>　　　　};<br />
+ <br />
+　　　　setTimeout(tasks,5000);</p>
+
+<p>　　　　<strong>return dtd.promise(); // 返回promise对象</strong></p>
+
+<p>　　};</p>
+
+<p>　　<strong>var d = wait(dtd); // 新建一个d对象，改为对这个对象进行操作</strong></p>
+
+<p>　　$.when(d)</p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>　　<strong>d.resolve(); // 此时，这个语句是无效的</strong></p>
+
+<p>（运行<a href="http://jsfiddle.net/Yur4R/">代码示例9</a>）</p>
+
+</blockquote>
+
+<p>在上面的这段代码中，wait()函数返回的是promise对象。然后，我们把回调函数绑定在这个对象上面，而不是原来的deferred对象上面。这样的好处是，无法改变这个对象的执行状态，要想改变执行状态，只能操作原来的deferred对象。</p>
+
+<p>不过，更好的写法是<a href="http://blog.allenm.me/2012/01/jquery_deferred_promise_method/">allenm</a>所指出的，将dtd对象变成wait(）函数的内部对象。</p>
+
+<blockquote>
+
+<p>　　var wait = function(dtd){</p>
+
+<p>　　　　<strong>var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象</strong></p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　　　dtd.resolve(); // 改变Deferred对象的执行状态</p>
+
+<p>　　　　};<br />
+ <br />
+　　　　setTimeout(tasks,5000);</p>
+
+<p>　　　　return dtd.promise(); // 返回promise对象</p>
+
+<p>　　};</p>
+
+<p>　　<strong>$.when(wait())</strong></p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>（运行<a href="http://jsfiddle.net/q9TvT/">代码示例10</a>）</p>
+
+</blockquote>
+
+<p><strong>八、普通操作的回调函数接口（中）</strong></p>
+
+<p>另一种防止执行状态被外部改变的方法，是使用deferred对象的建构函数$.Deferred()。</p>
+
+<p>这时，wait函数还是保持不变，我们直接把它传入$.Deferred()：</p>
+
+<blockquote>
+
+<p>　　<strong>$.Deferred(wait)</strong></p>
+
+<p>　　.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>（运行<a href="http://jsfiddle.net/ruanyf/CucGp/">代码示例11</a>）</p>
+
+</blockquote>
+
+<p>jQuery规定，$.Deferred()可以接受一个函数名（注意，是函数名）作为参数，$.Deferred()所生成的deferred对象将作为这个函数的默认参数。</p>
+
+<p><strong>九、普通操作的回调函数接口（下）</strong></p>
+
+<p>除了上面两种方法以外，我们还可以直接在wait对象上部署deferred接口。</p>
+
+<blockquote>
+
+<p>　　var dtd = $.Deferred(); // 生成Deferred对象</p>
+
+<p>　　var wait = function(dtd){</p>
+
+<p>　　　　var tasks = function(){</p>
+
+<p>　　　　　　alert("执行完毕！");</p>
+
+<p>　　　　　　dtd.resolve(); // 改变Deferred对象的执行状态</p>
+
+<p>　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);</p>
+
+<p>　　};</p>
+
+<p>　　<strong>dtd.promise(wait);</strong></p>
+
+<p>　　wait.done(function(){ alert("哈哈，成功了！"); })</p>
+
+<p>　　.fail(function(){ alert("出错啦！"); });</p>
+
+<p>　　wait(dtd);</p>
+
+<p>（运行<a href="http://jsfiddle.net/ruanyf/PF7Xf/">代码示例12</a>）</p>
+
+</blockquote>
+
+<p>这里的关键是dtd.promise(wait)这一行，它的作用就是在wait对象上部署Deferred接口。正是因为有了这一行，后面才能直接在wait上面调用done()和fail()。</p>
+
+<p><strong>十、小结：deferred对象的方法</strong></p>
+
+<p>前面已经讲到了deferred对象的多种方法，下面做一个总结：</p>
+
+<p>　　（1） <a href="http://api.jquery.com/category/deferred-object/">$.Deferred()</a> 生成一个deferred对象。</p>
+
+<p>　　（2） <a href="http://api.jquery.com/deferred.done/">deferred.done()</a> 指定操作成功时的回调函数</p>
+
+<p>　　（3） <a href="http://api.jquery.com/deferred.fail/">deferred.fail()</a> 指定操作失败时的回调函数</p>
+
+<p>　　（4） <a href="http://api.jquery.com/deferred.promise/">deferred.promise()</a> 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。</p>
+
+<p>　　（5） <a href="http://api.jquery.com/deferred.resolve/">deferred.resolve()</a> 手动改变deferred对象的运行状态为"已完成"，从而立即触发done()方法。</p>
+
+<p>　　（6）<a href="http://api.jquery.com/deferred.reject/">deferred.reject()</a> 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为"已失败"，从而立即触发fail()方法。</p>
+
+<p>　　（7） <a href="http://api.jquery.com/jQuery.when/">$.when()</a> 为多个操作指定回调函数。</p>
+
+<p>除了这些方法以外，deferred对象还有二个重要方法，上面的教程中没有涉及到。</p>
+
+<p>　　（8）<a href="http://api.jquery.com/deferred.then/">deferred.then()</a></p>
+
+<p>有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。</p>
+
+<blockquote>
+
+<p>　　$.when($.ajax( "/main.php" ))</p>
+
+<p>　　<strong>.then(successFunc, failureFunc );</strong></p>
+
+</blockquote>
+
+<p>如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。</p>
+
+<p>　　（9）<a href="http://api.jquery.com/deferred.always/">deferred.always()</a></p>
+
+<p>这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。</p>
+
+<blockquote>
+
+<p>　　$.ajax( "test.html" )</p>
+
+<p>　　.always( function() { alert("已执行！");} );</p>
+
+</blockquote>
+
+<p>（致谢：本文第一稿发表后，<a href="http://blog.allenm.me/">allenm</a>来信指出原文对promise()的理解是错的。现在的第二稿是根据<a href="http://blog.allenm.me/2012/01/jquery_deferred_promise_method/">他的文章</a>修改的，在此我表示衷心感谢。）</p>
+
+<p>（完）<br />
+</p>
+                                    <!-- /div -->
+
+                                </div>
+    <script type="text/javascript" src="/newwindow.js"></script>
+                                <div class="asset-footer">
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2011-08-16T23:26:32+08:00">2011年8月16日</abbr></li>
+<li>更多内容： <a href="http://www.ruanyifeng.com/blog/archives.html" target="_blank"> 档案</a>  » 
+<a href="http://www.ruanyifeng.com/blog/javascript/"> JavaScript</a> 
+</li>
+<li>博客文集：<a href="http://road.ruanyifeng.com" target="_blank">《寻找思想之路》</a>，<a href="https://ruanyf.github.io/survivor" target="_blank">《未来世界的幸存者》</a></li>
+<li>社交媒体：<a href="https://twitter.com/ruanyf" target="_blank"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAk1JREFUeNqsVc9rE0EU/mZ3dhPNJl2bVIk/Km09aFBE8GLvnrwJXvwLxIsgCP4Fnit6E8Gb0IMHwUsL9SSNgiAoooJIpE1Joo1h82uT7IxvxmRN3Q32kAdvdrI773vfe+/bDTu9WioDcDAda3Ja8piepQ1avCkCeny0Y+R9KenKwOmHHLvPaKn7AtVOoO8dOWDCMpg+41gMQv5FNEJACgoE8MsPNLDBhgfoutMOsJDmWLmU037C4TApciljwQ/kHoohQxV06+wMXNvE7WINuaSpvdYVKLgWnl3O4zAxU3Z1IYVGT+B5qYWV9z2kbQaT/cOwTsxOUUYF+mB5Dkmi8HG3h2q9hxsFNwRTdvQgxxnXRrMvIdkEhllis/qtiWuLDm4WZnBlPoWnXz28LHdw0uGR7m9Wu3j0qYGEubfn4UlBfXO4gTZltRNMg9w9f0i7kNFxllsBlS0x75gYfxyWTBUjT2W5CSMSPBrQuG21+hiMDS8CeCzF8eSLp13uQ3Ab1IqMFZN8tFHPmgOBF99bYP8Be1Xp6t7OJszJgKpPSiZvaj7uf2hguz2IBQuozDvFH6RDBjuK9wdQDvt0nMpW+8efGyh5UcAeZb2+UcHbnz5Jx4wdlp4yJYU3kLiQtfBwOYeLc8nIwfXtNu69q2Oz4mMxbemYOOOjKarhvq51KUjg3GwiFPIuvcNF6pnSnWK0lOEabNLgQh1aJFAhlGB9rG110B2+oyRNPc0sZbRNFltmLKDKqj4Qrm1ojzOxDz2pyPQ0P7CK4c40/wJ+CzAAGYrXsvfFXR4AAAAASUVORK5CYII=" style="border:0;"> twitter</a>，<a href="http://weibo.com/ruanyf" target="_blank"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAABPZJREFUeNqMyXtM1WUcx/FnNTdreAVCEEThyEFUrM2kwkpS05qVl8rugVpRUelaJdZaWWktdZKHssImgV04osgBCbwAa2Whm6GWoXHxcD1wHiI4t9/z/H68+wO3av1R3+217/b+CFStsHq/W2V1HW+wOmq8VkeN/E+dR/7SUSOtrmOnLc93jxA6LsTw71XLrUsHsNwHsdxl/09HGVb7QawOF1bn4ZF26QDDsmqNsH7be9psKcJs+fy/tRZjXvwM//678BVdT6BsMarhxZHeug+reW+TMC84+s0LDv4tH7PZgdXqwGrLx7yYP9KaHISOvUCwYh3+4iUMOiIJVmSMbBfy+4X581Zp/ryVfzi/FfPXd1AntxNwvkvg6zfQZ7Zg/rIV8/x7qB9fJlT/JPrcm4SOPctg3ihCR5dhNu2QQjfmSt2Yi27MRf+Uiz67Ef1TLv7Ct5CPZtMzJ4N2243Ij7Kwmjdhnt+EUZeFr/BmhvYkoBqewl8yD9/eCejGTVLoUzlSn8pBn8xBn85B/fAcf7z6PJ7rl9KdNBdP6nwuJc2jL+9+jJrXGNr1On9seZHgkQ0ESq8l4EzBOLKMod1XoE6slUKfXCd1wxp0Qxb6RBYDLzxGz8xb8aSm05u2kL4bF9N902I89yzHe986PEseoGP2YjqfvpNQeTr+4rmEKucz6LgS9f1jUuiy+VIfvxvz1GoGN99Hz8wFeGan0zl3Ae4lK3A/vJb2x7PpWPEI3bevoHfJKtypt9H1UgbDZx5E//goofJF+AtmoasWSaG2jZE6P5zg9hQ8Nyyie1Y6rQ+vpafMhdHXx7BpgjWMr7sbT5kL9/IHcUck0X3LtfgLVqAP3YAumoHeHYvaPkYKlRcudf54Bh5KpjP5Fi69tplgIMCQabK/rIxtO3bgqqxkmJHzdXbRknYbrWIcrWEJ9D8RjXaMRe2ciNo5QQr1QYRUjnC8C1Nxr1pD0O/HFwyQmZmJ3W4nLS0Nm83G+vXrsSwLgP6vS2kWo/lNjKN57gTMTyJRH0Si8iZKoXZdI5Ujkt55SXRtfBuAffv2sXLlSpxOJ9nZ2SQkJBAWFobX6wVgoPooLWI0v4hxuFeFY30ahdoVhcqLkEJ9GCV1QRTehZNxZ9wPQNGXX5KZmUlbWxspKSkIIUhPT0dZFibQvSaHJjGKxujxBHZGoT+ehPpwEsoRIYUqmCR1YTTBd2NoGxtOz4Y3CPoDrNuwnuhpU7lq/HgW3LGU5l4P2h+g55XNnBOjORM/jsH3ozGLYlAFMag90ahPI6VQxZOlKo5BOyfjey+GliljaL0uA7l9D2f37uess5KBoyfwbvmIJnsajVePouXeCIKFsZglsajiyX8pvEYKoySm33DGYTjj0OVxhEri6N84kfalY2i/NRb3AhvNN0+i9Y4wPC+H4yuMxTocjzoYj7F/ymVxI/+ryH5huKaeMVzxGK54QuXT8B+y4atIZqB8Nt6SVDzFqXi+mIO39Dp+PziHwdIZDJVOJ3gogZArHsM1BcMVj1E+BcMVe1GY38auNqqnYdQkEKpOJPBNEv7DdnyVdnwVdoYqki+bge9wCv6qFAJVyQS/mU6oJhHjSCJG9VSM6kRUfXi2GK6fJYy6+CyjNrHRqLP1GbWJ0qizSfV39Tap6qdLVW+Xqt4ujfokadRdVpvgNWpt54y6qc8MV44Sfw4An+t+Gj1AKyYAAAAASUVORK5CYII=" style="border:0;" /> weibo</a></li>
+<li>Feed订阅： <a href="/feed.html" target="_blank"><img src="data:image/gif;base64,R0lGODlhFAAUANU2APV1GfmrePZ8IeR5VPq2ieNkLf7p3NpFJveCJ/NoFfibVPR1IexiJfvdzuZrNfXGuOhUEueTevaFOfzIpNxDGeZZJNU6IOubifiVTfOnid1aLuZpLOFSJf/28vJtIvGcefaLSd5kNu9iFv/z6//48//t4uFfLfNkCeJNGuGNc/rCof/+/PVxEeldI/V5KeKMbu9nIvB2OvzQtNxMKfOPXP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAADYALAAAAAAUABQAAAb/QJstEjKZCsjCZsl0pIS2QWXaYsA8noVWIEAgFoNhhWNyMESi7Jbr/aZCFdRnZJAFJCwAt+vlOkwtEBk1hDUkExJ6bQJaGyYMLTQTDSOFHQF8jAseSFYiJwkuAQ2FE1xaHjBIMDAgARguJwABJIQTLJswDEgeIgSEJQQILAqVNQEiui1HHgkBhTUGCiwYtR0xLS0VJhtaEgoEBoQkGCfPNSoQY9xaCwAsCBPALgmkJA4cZN0CAAgY/PJqEIDwgVAECjM0bOAnwcAKGQJclKhRgoGDDjUeUDigkN8vQiBOfByAglSDAxw3IBCgYEU0FyJoEPpA4UGNDjMsaHDQR8EdPVYOMmQYQGHAhQgHLIRIsWAlgASsGMRBMWMGBQtYZ7yIsoBRKkhjOMxAiXJGGCEpHGxIYsSIhrcaQmy1EQQAOw==" style="border:0;" /></a></li>
+
+</ul>
+                                </div>
+</article>
+                            </div>
+
+                        <div id="sup-post-2" style="display: inline-block ! important;width: 100%;">
+   <p style="text-align:center;"><a href="http://www.zhufengpeixun.cn/jscourse/new/js/index.html?ref=ruanyifeng.com" target="_blank"><img alt="珠峰培训" src="http://www.ruanyifeng.com/blog/images/sup_zhufeng_page.png" style="border:none;"/></a></p>
+   <p style="text-align:center;"><a href="https://jianxun.io/?utm_source=ad&utm_medium=site_ad&utm_compaign=ruanyifeng&utm_content=pos_body_bottom&utm_term=jialezhang" target="_blank"><img alt="简寻" src="http://www.ruanyifeng.com/blog/images/sub_jianxun_2016b.png" style="border:none;"/></a></p>                         
+  </div>
+
+<div id="related_entries">
+<h2>相关文章</h2>
+<ul>
+
+<li><strong>2016.11.15: <a href="http://www.ruanyifeng.com/blog/2016/11/javascript.html">JavaScript 全栈工程师培训教程</a></strong>
+
+                           <div class="entry-body">
+                              我现在的技术方向，前端是 React，后端是 Node，时间都投入在这两方面。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2016.11.03: <a href="http://www.ruanyifeng.com/blog/2016/11/intersectionobserver_api.html">IntersectionObserver API 使用教程</a></strong>
+
+                           <div class="entry-body">
+                              网页开发时，常常需要了解某个元素是否进入了"视口"（viewport），即用户能不能看到它。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2016.10.11: <a href="http://www.ruanyifeng.com/blog/2016/10/npm_scripts.html">npm scripts 使用指南</a></strong>
+
+                           <div class="entry-body">
+                              Node 开发离不开 npm，而脚本功能是 npm 最强大、最常用的功能之一。
+
+                           </div>
+
+</li>
+
+ 
+<li><strong>2016.09.23: <a href="http://www.ruanyifeng.com/blog/2016/09/react-technology-stack.html">React 技术栈系列教程</a></strong>
+
+                           <div class="entry-body">
+                              上周中秋节，我待在家里，写完了 Redux 教程。
+
+                           </div>
+
+</li>
+
+ 
+</ul>
+</div>
+
+
+<div id="gd1">
+<h2>广告<a href="/support.html">（购买广告位）</a></h2>
+<div id="gd1-inner">
+<div id="gd1-left">
+<a href="http://www.miaov.com/?utm_source=ruanyifeng&" alt="妙味课堂" target="_blank"><image alt="妙味课堂" src="http://www.ruanyifeng.com/blog/images/sup_miaov_2.jpg" style="border:none;" /></a>
+<br />
+<a href="http://www.zhinengshe.com/?utm_source=ruanyifeng&utm_medium=cpm&utm_campaign=extlink2016&utm_term=qianduan&utm_content=article" title="智能社" target="_blank"><image alt="智能社" src="http://www.ruanyifeng.com/blog/images/sup_zhinengshe.jpg" style="border:none;" /></a>
+</div>
+<div id="gd1-right">
+<a href="http://apeclass.cn/1212/index.html?utm_source=ruanyifeng" title="海棠学院" target="_blank"><image alt="海棠学院" src="http://www.ruanyifeng.com/blog/images/sup_apeclass_300.png" style="border:none;" /></a>
+<br />
+<a href="http://www.yidengxuetang.com/recruit/?hmsr=ryf_gaoduan_web_0204" title="一灯学堂" target="_blank"><image alt="一灯学堂" src="http://www.ruanyifeng.com/blog/images/sup_yideng_new.png" style="border:none;" /></a>
+
+</div>
+</div>
+</div>
+                    
+
+                    <div id="comments" class="comments">
+
+
+    
+    
+        
+    <h2 class="comments-header">留言（110条）</h2>
+
+    <div id="comments-content" class="comments-content" style="clear: left;">
+        
+        <div id="comment-225686" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">qq</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225686">
+            <p>请问博主，第六条中的 wait函数还是保持不变，是保持第一个版本不变还是保持添加了dtd参数的版本不变？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  7:03 AM">2011年8月17日 07:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225686">#</a>
+ | <a href="#comment-text" title="引用qq的这条留言" onclick="return CommentQuote('comment-quote-225686','qq');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225690" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://hi.baidu.com/eulerray" href="http://hi.baidu.com/eulerray" target="_blank" rel="nofollow">锐齿猱</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225690">
+            <blockquote>
+<pre>引用qq的发言：</pre>
+
+<p>请问博主，第六条中的 wait函数还是保持不变，是保持第一个版本不变还是保持添加了dtd参数的版本不变？</p>
+
+</blockquote>
+
+<p>我开始对这里也疑问，不过可以看 代码示例6。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  8:29 AM">2011年8月17日 08:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225690">#</a>
+ | <a href="#comment-text" title="引用锐齿猱的这条留言" onclick="return CommentQuote('comment-quote-225690','锐齿猱');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225697" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.cuidapeng.cn" href="http://www.cuidapeng.cn" target="_blank" rel="nofollow">苗苗老师</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225697">
+            <p>阮兄是做什么工作的？每天都有时间研究这些，是在政府机关吧？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011 10:34 AM">2011年8月17日 10:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225697">#</a>
+ | <a href="#comment-text" title="引用苗苗老师的这条留言" onclick="return CommentQuote('comment-quote-225697','苗苗老师');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225709" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">TBAG</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225709">
+            <p>真是变化好大啊。新的方式写的代码很fluent...</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  2:34 PM">2011年8月17日 14:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225709">#</a>
+ | <a href="#comment-text" title="引用TBAG的这条留言" onclick="return CommentQuote('comment-quote-225709','TBAG');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225716" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">david</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225716">
+            <p>dojo早就有了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  3:33 PM">2011年8月17日 15:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225716">#</a>
+ | <a href="#comment-text" title="引用david的这条留言" onclick="return CommentQuote('comment-quote-225716','david');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225717" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://ydshw.com" href="http://ydshw.com" target="_blank" rel="nofollow">阿吉</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225717">
+            <p>刚看API呢。学习啦。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  3:35 PM">2011年8月17日 15:35</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225717">#</a>
+ | <a href="#comment-text" title="引用阿吉的这条留言" onclick="return CommentQuote('comment-quote-225717','阿吉');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225731" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.leonzhang.com" href="http://www.leonzhang.com" target="_blank" rel="nofollow">hileon</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225731">
+            <p>node.js 里有与jquery的deferred对象等价的对象吗?</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011  6:27 PM">2011年8月17日 18:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225731">#</a>
+ | <a href="#comment-text" title="引用hileon的这条留言" onclick="return CommentQuote('comment-quote-225731','hileon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225743" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">白洁</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225743">
+            <p>博主您好,<br />
+    我看了这篇文章有几点感悟不知道是不是对的.1、用deferred可以简化$.ajax,但是deferred也没有丰满$.ajax的功能.因为$.ajax同样有seccess,error的方法,而且方法里面 你还能调用其他方法.success:myfunction 这样也能复用.而且$.ajax也有异步或同步的属性.2、deferred的出现解决了一个非ajax请求的监听事件是否执行成功的一系列方法。<br />
+    不知道我的看法是不是对的。还请博主指教。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 17, 2011 10:39 PM">2011年8月17日 22:39</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225743">#</a>
+ | <a href="#comment-text" title="引用白洁的这条留言" onclick="return CommentQuote('comment-quote-225743','白洁');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225768" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225768">
+            <p>@白洁:</p>
+
+<p>我的理解是，deferred主要解决回调函数的部署，它与$.ajax方法的设计各有侧重。</p>
+
+<p>趋势是$.ajax将来会完全使用deferred，作为自己的回调函数接口。有文章称，success方法将在1.8.0版本被取消。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2011 12:19 PM">2011年8月18日 12:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225768">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-225768','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225771" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.coridc.com" href="http://www.coridc.com" target="_blank" rel="nofollow">贝壳里的海</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225771">
+            <p>你的博客访问速度好强大啊，太快了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2011 12:33 PM">2011年8月18日 12:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225771">#</a>
+ | <a href="#comment-text" title="引用贝壳里的海的这条留言" onclick="return CommentQuote('comment-quote-225771','贝壳里的海');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225790" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.cnblogs.com/seasunk" href="http://www.cnblogs.com/seasunk" target="_blank" rel="nofollow">seasunk</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225790">
+            <p>我怎么觉得还是原来的做得顺手~~</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2011  3:44 PM">2011年8月18日 15:44</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225790">#</a>
+ | <a href="#comment-text" title="引用seasunk的这条留言" onclick="return CommentQuote('comment-quote-225790','seasunk');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225821" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">徐伟思</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225821">
+            <blockquote>
+<pre>引用seasunk的发言：</pre>
+
+<p>我怎么觉得还是原来的做得顺手~~</p>
+
+</blockquote>
+我觉得原来的ajax方法更容易让初学者使用，现在这个有点摸不着头脑
+
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2011 11:05 PM">2011年8月18日 23:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225821">#</a>
+ | <a href="#comment-text" title="引用徐伟思的这条留言" onclick="return CommentQuote('comment-quote-225821','徐伟思');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225842" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.dovpc.com" href="http://www.dovpc.com" target="_blank" rel="nofollow">我爱pc</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225842">
+            <blockquote>
+<pre>引用贝壳里的海的发言：</pre>
+
+<p>你的博客访问速度好强大啊，太快了</p>
+
+</blockquote>
+
+<p>阮兄弟的主机在香港。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 19, 2011  9:27 AM">2011年8月19日 09:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225842">#</a>
+ | <a href="#comment-text" title="引用我爱pc的这条留言" onclick="return CommentQuote('comment-quote-225842','我爱pc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225977" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">gwallan</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225977">
+            <p>请教楼主，有什么方法能让在then里面产生的数据传递到done中，比如：</p>
+
+<p>$.when(function(){<br />
+}).then(function(){<br />
+  var arg = '';<br />
+}).done(function(){<br />
+  //如何得到上面arg参数?<br />
+});</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 21, 2011  6:04 PM">2011年8月21日 18:04</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225977">#</a>
+ | <a href="#comment-text" title="引用gwallan的这条留言" onclick="return CommentQuote('comment-quote-225977','gwallan');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-225989" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">阮一峰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-225989">
+            <blockquote>
+<pre>引用gwallan的发言：</pre>
+
+<p>有什么方法能让在then里面产生的数据传递到done中，比如：</p>
+
+</blockquote>
+
+<p>把数据绑在this关键字上面。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 21, 2011  8:15 PM">2011年8月21日 20:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-225989">#</a>
+ | <a href="#comment-text" title="引用阮一峰的这条留言" onclick="return CommentQuote('comment-quote-225989','阮一峰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-226241" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">snowqiang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-226241">
+            <p>Jquery简直就像封装了一个语言层面的异步语法,创建并就绪,执行,或成功或失败,最后再加个处理.如果能再加上一个主动超时处理就更强了.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 25, 2011  5:53 PM">2011年8月25日 17:53</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-226241">#</a>
+ | <a href="#comment-text" title="引用snowqiang的这条留言" onclick="return CommentQuote('comment-quote-226241','snowqiang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-226295" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">自由过度</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-226295">
+            <p>dtd.promise()的目的，就是保证目前的执行状态----也就是"未完成"----不变，从而确保只有操作完成后，才会触发回调函数。</p>
+
+<p>这个还是删掉吧，文章作者根本没理解什么是promise只是从字面上去推定这个函数的意义</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 26, 2011  6:56 PM">2011年8月26日 18:56</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-226295">#</a>
+ | <a href="#comment-text" title="引用自由过度的这条留言" onclick="return CommentQuote('comment-quote-226295','自由过度');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-231183" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Hyacinthus, Chu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-231183">
+            <blockquote>
+<pre>引用自由过度的发言：</pre>
+
+<p>dtd.promise()的目的，就是保证目前的执行状态----也就是"未完成"----不变，从而确保只有操作完成后，才会触发回调函数。</p>
+
+<p>这个还是删掉吧，文章作者根本没理解什么是promise只是从字面上去推定这个函数的意义</p>
+
+</blockquote>
+
+<p>其实我们可以看到，var d = $.Deferred()，与 var p = d.promise(); 这两者的区别主要就在于， d 包含了 resolve, resolveWith, reject 与 rejectWith 这四个方法。而这四个方法就是用来触发 done, fail, always 这些个回调函数的。<br />
+之所以要返回 d.promise()： 一是因为 CommonJS promise/A 本来就应当是这样子的；二也是用来避免返回的对象能够主动地调用到resolve与reject这些关键性的方法。<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 24, 2011  1:03 PM">2011年9月24日 13:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-231183">#</a>
+ | <a href="#comment-text" title="引用Hyacinthus, Chu的这条留言" onclick="return CommentQuote('comment-quote-231183','Hyacinthus, Chu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-232517" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Hongyy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-232517">
+            <blockquote>
+<pre>引用白洁的发言：</pre>
+博主您好,我看了这篇文章有几点感悟不知道是不是对的.1、用deferred可以简化$.ajax,但是deferred也没有丰满$.ajax的功能.因为$.ajax同样有seccess,error的方法,而且方法里面 你还能调用其他方法.success:myfunction 这样也能复用.而且$.ajax也有异步或同步的属性.2、deferred的出现解决了一个非ajax请求的监听事件是否执行成功的一系列方法。不知道我的看法是不是对的。还请博主指教。
+</blockquote>
+
+<p>不影响原来ajax的使用，异步或同步的属性，还有传递的参数的使用方式还是和原来的一样。 </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 27, 2011 11:50 AM">2011年9月27日 11:50</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-232517">#</a>
+ | <a href="#comment-text" title="引用Hongyy的这条留言" onclick="return CommentQuote('comment-quote-232517','Hongyy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-238160" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.wybai.net" href="http://www.wybai.net" target="_blank" rel="nofollow">bailey</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-238160">
+            <p>受益匪浅，比官方的解释好</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 27, 2011 11:44 AM">2011年10月27日 11:44</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-238160">#</a>
+ | <a href="#comment-text" title="引用bailey的这条留言" onclick="return CommentQuote('comment-quote-238160','bailey');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-239292" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://jfbcb.com" href="http://jfbcb.com" target="_blank" rel="nofollow">jfbcb</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-239292">
+            <p>今天看到1.7出来,就找教程看看,阮兄弟的文章不错.顶一个,主机放HK就是好,我的移到ix,尼玛.百度清站了,据说是不能正常打开..坑爹..</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 10, 2011  3:45 PM">2011年11月10日 15:45</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-239292">#</a>
+ | <a href="#comment-text" title="引用jfbcb的这条留言" onclick="return CommentQuote('comment-quote-239292','jfbcb');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-239988" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ifree</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-239988">
+            <blockquote>
+<pre>引用hileon的发言：</pre>
+
+<p>node.js 里有与jquery的deferred对象等价的对象吗?</p>
+
+</blockquote>
+
+<p>... node是js引擎,jQuery是支持的.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 18, 2011  1:59 AM">2011年11月18日 01:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-239988">#</a>
+ | <a href="#comment-text" title="引用ifree的这条留言" onclick="return CommentQuote('comment-quote-239988','ifree');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-244230" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">molayu</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-244230">
+            <blockquote>
+<pre>引用ifree的发言：</pre>
+
+<p></p>
+
+<p>... node是js引擎,jQuery是支持的.</p>
+
+</blockquote>
+
+<p>node是“宿主环境”（我理解为JVM子类的），它是由V8引擎来执行JS，并实现了CommonJS标准库，赋予JS更多强大的能力。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  4, 2012 11:30 AM">2012年1月 4日 11:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-244230">#</a>
+ | <a href="#comment-text" title="引用molayu的这条留言" onclick="return CommentQuote('comment-quote-244230','molayu');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-246665" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">唇角轻扬</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-246665">
+            <p>看得晕乎乎的</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 30, 2012 10:32 PM">2012年1月30日 22:32</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-246665">#</a>
+ | <a href="#comment-text" title="引用唇角轻扬的这条留言" onclick="return CommentQuote('comment-quote-246665','唇角轻扬');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-250115" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">A_Hunt</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-250115">
+            <p>dtd，虽然是个局部变量，但还是建议改一下吧，应该是：dfd 吧。dtd在这里莫名其妙了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  9, 2012  4:38 PM">2012年3月 9日 16:38</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-250115">#</a>
+ | <a href="#comment-text" title="引用A_Hunt的这条留言" onclick="return CommentQuote('comment-quote-250115','A_Hunt');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-250485" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.toobug.net" href="http://www.toobug.net" target="_blank" rel="nofollow">TooBug</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-250485">
+            <p>受益匪浅！</p>
+
+<p>但是第八点有误<br />
+$.Deferred(wait)<br />
+这里的wait和上面不一样，在wait再定义一个dtd将不能正常工作。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 14, 2012  8:27 PM">2012年3月14日 20:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-250485">#</a>
+ | <a href="#comment-text" title="引用TooBug的这条留言" onclick="return CommentQuote('comment-quote-250485','TooBug');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-253490" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://qrsir.com" href="http://qrsir.com" target="_blank" rel="nofollow">小小僧</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-253490">
+            <blockquote>
+<pre>引用阮一峰的发言：</pre>
+
+<p>趋势是$.ajax将来会完全使用deferred，作为自己的回调函数接口。有文章称，success方法将在1.8.0版本被取消。</p>
+
+</blockquote>
+
+<p>如果success被取消了，<br />
+success:function(rel){//处理rel}<br />
+那之前的ajax返回的数据怎么传递给done()?</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 26, 2012  3:14 PM">2012年4月26日 15:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-253490">#</a>
+ | <a href="#comment-text" title="引用小小僧的这条留言" onclick="return CommentQuote('comment-quote-253490','小小僧');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-255775" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">vivi</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-255775">
+            <p>很受益，谢谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 30, 2012  4:34 PM">2012年5月30日 16:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-255775">#</a>
+ | <a href="#comment-text" title="引用vivi的这条留言" onclick="return CommentQuote('comment-quote-255775','vivi');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-260642" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.xizhang.com" href="http://www.xizhang.com" target="_blank" rel="nofollow">陈希章</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-260642">
+            <p>相当不错的文章，感谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August  7, 2012 10:21 AM">2012年8月 7日 10:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-260642">#</a>
+ | <a href="#comment-text" title="引用陈希章的这条留言" onclick="return CommentQuote('comment-quote-260642','陈希章');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-260643" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">陈希章</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-260643">
+            <p>我觉得Deferred这个功能，并不能真正解决对本地非异步方法的封装，因为javascript是单线程的，如果该方法需要很长时间执行，例如下面这样一个函数</p>
+
+<p>            var array = new Array();<br />
+            var i = 1;<br />
+            while (i 
+                array.push(i);<br />
+                array = array.reverse();<br />
+                i++;<br />
+            }</p>
+
+<p><br />
+那么，在执行这个函数的时候，整个页面还是被卡住的。即便可以通过本文所说的技术用Deffered。</p>
+
+<p>有没有什么方法将这种长时间的方法，真正实现出来异步的效果，做完之后再调用回调函数即可。</p>
+
+<p>请阮兄指教</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August  7, 2012 11:34 AM">2012年8月 7日 11:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-260643">#</a>
+ | <a href="#comment-text" title="引用陈希章的这条留言" onclick="return CommentQuote('comment-quote-260643','陈希章');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-261408" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://www.facebook.com/jianxiong.zhen" href="https://www.facebook.com/jianxiong.zhen" target="_blank" rel="nofollow">KentZen</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-261408">
+            <p>致谢为后来者提供有用知识的先驱！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 15, 2012  4:36 PM">2012年8月15日 16:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-261408">#</a>
+ | <a href="#comment-text" title="引用KentZen的这条留言" onclick="return CommentQuote('comment-quote-261408','KentZen');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-261604" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">snowqiang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-261604">
+            <p>第七节的最后一个示例代码</p>
+
+<p>"var wait = function(dtd){" <br />
+应为:<br />
+"var wait = function(){"<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2012  2:04 PM">2012年8月18日 14:04</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-261604">#</a>
+ | <a href="#comment-text" title="引用snowqiang的这条留言" onclick="return CommentQuote('comment-quote-261604','snowqiang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-264057" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://blog.jiucai.org" href="http://blog.jiucai.org" target="_blank" rel="nofollow">韭菜</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-264057">
+            <p>好文啊，收藏了，非常有用。<br />
+这里 <a href="http://stackoverflow.com/questions/5111695/jquery-jqxhr-cancel-chained-calls-trigger-error-chain" rel="nofollow">http://stackoverflow.com/questions/5111695/jquery-jqxhr-cancel-chained-calls-trigger-error-chain</a> 也有介绍</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 29, 2012  1:13 PM">2012年9月29日 13:13</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-264057">#</a>
+ | <a href="#comment-text" title="引用韭菜的这条留言" onclick="return CommentQuote('comment-quote-264057','韭菜');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-266728" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.tarobjtu.com" href="http://www.tarobjtu.com" target="_blank" rel="nofollow">祁涛</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-266728">
+            <p>使用deferred对象写JS动画非常方便，例如：</p>
+
+<p>// Animation flows.<br />
+$.when( preloadImage() )<br />
+ .then( animation01 )<br />
+ .then( animation02 )<br />
+ .then( animation03 )<br />
+ .then( transition )<br />
+ .then( merge )<br />
+ .then( zoom )<br />
+ .then( showContent )<br />
+ .then( flicker );</p>
+
+<p>优点：<br />
+1、可以任意调整动画的先后顺序。<br />
+2、添加 SKIP（跳过动画）功能也很方便。<br />
+3、调试动画也可以节省大量时间。 把不需要调试的动画项注释掉。 例如:</p>
+
+<p>$.when( preloadImage() )<br />
+// .then( animation01 )<br />
+// .then( animation02 )<br />
+// .then( animation03 )<br />
+// .then( transition )<br />
+// .then( merge )<br />
+// .then( zoom )<br />
+ .then( showContent )<br />
+ .then( flicker );</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  6, 2012  6:00 PM">2012年12月 6日 18:00</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-266728">#</a>
+ | <a href="#comment-text" title="引用祁涛的这条留言" onclick="return CommentQuote('comment-quote-266728','祁涛');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-267689" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jease</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-267689">
+            <p>其实我一直觉得那个 dtd 的变量有歧义，还是叫 dfd 比较合适。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  9, 2013 11:36 AM">2013年1月 9日 11:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-267689">#</a>
+ | <a href="#comment-text" title="引用Jease的这条留言" onclick="return CommentQuote('comment-quote-267689','Jease');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-268839" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">roc</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-268839">
+            <p>很感谢,一看就懂,现学现用</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 19, 2013 11:15 AM">2013年2月19日 11:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-268839">#</a>
+ | <a href="#comment-text" title="引用roc的这条留言" onclick="return CommentQuote('comment-quote-268839','roc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-268897" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://blog.csdn.net/hobotree" href="http://blog.csdn.net/hobotree" target="_blank" rel="nofollow">doyle</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-268897">
+            <p>$.when(f1).then(f2)<br />
+保证了f2作为f1的回调函数，在f1之后执行？<br />
+deffered对象果然只是回调函数解决方案，f1阻塞的时候照样锁死浏览器<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 20, 2013 11:36 AM">2013年2月20日 11:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-268897">#</a>
+ | <a href="#comment-text" title="引用doyle的这条留言" onclick="return CommentQuote('comment-quote-268897','doyle');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-269329" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://lmk123.com" href="http://lmk123.com" target="_blank" rel="nofollow">未来的前端</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-269329">
+            <p>看完之后豁然开朗,同时,网站的设计很好看!</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  4, 2013 10:29 AM">2013年3月 4日 10:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-269329">#</a>
+ | <a href="#comment-text" title="引用未来的前端的这条留言" onclick="return CommentQuote('comment-quote-269329','未来的前端');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-270131" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">ian</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-270131">
+            <p>希望不久自己能把相关源码分析一下，应用到自己的项目中。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 24, 2013 11:33 PM">2013年3月24日 23:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-270131">#</a>
+ | <a href="#comment-text" title="引用ian的这条留言" onclick="return CommentQuote('comment-quote-270131','ian');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-270169" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://weibo.com/springwang" href="http://weibo.com/springwang" target="_blank" rel="nofollow">springwang</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-270169">
+            <p>呵呵，文章写的很清晰，从使用上都理解了，关于具体实现的细节我没有看jquery的源码，下面是我自己整理的一个简单关于Defered和when的实现，没有添加参数传递的部分，希望能给大家一点帮助：</p>
+
+<p>地址 <a href="http://jsfiddle.net/springwang/uW6tb/9/" rel="nofollow">http://jsfiddle.net/springwang/uW6tb/9/</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 26, 2013  3:11 PM">2013年3月26日 15:11</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-270169">#</a>
+ | <a href="#comment-text" title="引用springwang的这条留言" onclick="return CommentQuote('comment-quote-270169','springwang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-270531" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">旧城</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-270531">
+            <p>最后一例有些问题，可以直接在外部调用 dtd.resolve()。promise方法应该是仅仅扩展指定对象操作Deferred对象的部分API（主要是 done、fail、always等等，没有resolve、reject这类API），这样多个对象可以操作同一个Deferred对象。所以最后那个例子的实现还是需要跟allenm推荐的一样，必须使用函数封装。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  9, 2013 12:46 AM">2013年4月 9日 00:46</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-270531">#</a>
+ | <a href="#comment-text" title="引用旧城的这条留言" onclick="return CommentQuote('comment-quote-270531','旧城');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-270901" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://arliang725.cnblogs.com" href="http://arliang725.cnblogs.com" target="_blank" rel="nofollow">阿良</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-270901">
+            <blockquote>
+<pre>引用gwallan的发言：</pre>
+
+<p>有什么方法能让在then里面产生的数据传递到done中</p>
+
+<p> <pre> 引用阮一峰的发言：</pre></p>
+
+<p>  把数据绑在this关键字上面。</p>
+
+</blockquote>
+
+<pre>
+在jQuery源码的ajax部分，你可以看到这样的代码
+// Success/Error
+if ( isSuccess ) {
+  deferred.resolveWith( callbackContext, [ success, statusText, jqXHR ] );
+} else {
+  deferred.rejectWith( callbackContext, [ jqXHR, statusText, error ] );
+}
+
+<p>// Complete<br />
+completeDeferred.fireWith( callbackContext, [ jqXHR, statusText ] );<br />
+</p></pre>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 21, 2013 11:52 AM">2013年4月21日 11:52</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-270901">#</a>
+ | <a href="#comment-text" title="引用阿良的这条留言" onclick="return CommentQuote('comment-quote-270901','阿良');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-271762" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">菜菜</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-271762">
+            <p>学习啦，太感谢啦...</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 27, 2013  8:57 AM">2013年5月27日 08:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-271762">#</a>
+ | <a href="#comment-text" title="引用菜菜的这条留言" onclick="return CommentQuote('comment-quote-271762','菜菜');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-271950" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">McGradi</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-271950">
+            <p>如果有三个事件event01,event02,event03,要event01->event02->event03顺序执行。要怎么写？<br />
+我试了$.when(event01()).done(event02).done(event03);但是不行，event02和event03同时执行了。</p>
+
+<p><a href="http://jsfiddle.net/McGradi/PUb3Z/" rel="nofollow">http://jsfiddle.net/McGradi/PUb3Z/</a><br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June  5, 2013  9:55 AM">2013年6月 5日 09:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-271950">#</a>
+ | <a href="#comment-text" title="引用McGradi的这条留言" onclick="return CommentQuote('comment-quote-271950','McGradi');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-271955" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">杨青</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-271955">
+            <p>@阿良：</p>
+
+<p>then里头的function直接return就好啦<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June  5, 2013  6:14 PM">2013年6月 5日 18:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-271955">#</a>
+ | <a href="#comment-text" title="引用杨青的这条留言" onclick="return CommentQuote('comment-quote-271955','杨青');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-272485" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://jser.io" href="http://jser.io" target="_blank" rel="nofollow">清泉古雾</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-272485">
+            <p>一直都在关注您的博客 跟您学习了很多<br />
+最近在看jQuery源码 翻出来您这篇博客<br />
+发现代码示例10里面<br />
+"var wait = function(dtd){"<br />
+应该是<br />
+"var wait = function(){"<br />
+希望能跟您学习的更多啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  3, 2013  7:13 PM">2013年7月 3日 19:13</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-272485">#</a>
+ | <a href="#comment-text" title="引用清泉古雾的这条留言" onclick="return CommentQuote('comment-quote-272485','清泉古雾');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-273481" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://blog.xlhuang.com" href="http://blog.xlhuang.com" target="_blank" rel="nofollow">黄雪良</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-273481">
+            <p>感觉那个d = wait(dtd);改为<br />
+dtd = wait(dtd)更好。<br />
+本意是为了防止dtd.resolve()在下面被使用</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  3, 2013  4:30 PM">2013年9月 3日 16:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-273481">#</a>
+ | <a href="#comment-text" title="引用黄雪良的这条留言" onclick="return CommentQuote('comment-quote-273481','黄雪良');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-277589" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">song</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-277589">
+            <p>Very Good !</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October  8, 2013 10:56 AM">2013年10月 8日 10:56</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-277589">#</a>
+ | <a href="#comment-text" title="引用song的这条留言" onclick="return CommentQuote('comment-quote-277589','song');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-278655" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://yanhaijing.github.io" href="http://yanhaijing.github.io" target="_blank" rel="nofollow">yanhaijing</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-278655">
+            <p>我喜欢回调的方式，不喜欢链式</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 15, 2013  2:35 PM">2013年10月15日 14:35</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-278655">#</a>
+ | <a href="#comment-text" title="引用yanhaijing的这条留言" onclick="return CommentQuote('comment-quote-278655','yanhaijing');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-289736" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://cndenis.github.io" href="http://cndenis.github.io" target="_blank" rel="nofollow">cnDenis</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-289736">
+            <p>谢谢博主! 读一篇博文, 比看两天手册还更清楚</p>
+
+<p>很喜欢这Blog简洁明了的风格!</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 28, 2013 11:40 AM">2013年11月28日 11:40</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-289736">#</a>
+ | <a href="#comment-text" title="引用cnDenis的这条留言" onclick="return CommentQuote('comment-quote-289736','cnDenis');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-291654" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">joy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-291654">
+            <p>阮老师的文章，真心不错，一看就懂，顶一个</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  6, 2013  5:28 PM">2013年12月 6日 17:28</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-291654">#</a>
+ | <a href="#comment-text" title="引用joy的这条留言" onclick="return CommentQuote('comment-quote-291654','joy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-292470" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">邹成卓</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-292470">
+            <blockquote>
+<pre>引用白洁的发言：</pre>
+
+<p>博主您好,<br />
+我看了这篇文章有几点感悟不知道是不是对的.1、用deferred可以简化$.ajax,但是deferred也没有丰满$.ajax的功能.因为$.ajax同样有seccess,error的方法,而且方法里面 你还能调用其他方法.success:myfunction 这样也能复用.而且$.ajax也有异步或同步的属性.2、deferred的出现解决了一个非ajax请求的监听事件是否执行成功的一系列方法。<br />
+不知道我的看法是不是对的。还请博主指教。</p>
+
+</blockquote>
+
+<p> <br />
+ajax用的多了，体会到defferd对象一个非常大的好处：可以很方便地动态设置回调。<br />
+比如我写了一个ajax，但是并不知道回调中会执行哪些操作，回调的回调中又会执行哪些操作。<br />
+用defferd的话，我可以什么都不写，等以后要用的时候把回调挨个往后边加就好了。  这比自己去预留一些回调的处理方便多了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 11, 2013  9:06 PM">2013年12月11日 21:06</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-292470">#</a>
+ | <a href="#comment-text" title="引用邹成卓的这条留言" onclick="return CommentQuote('comment-quote-292470','邹成卓');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-294169" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">duan</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-294169">
+            <p>刚刚想了解deferred和promise就看到了你的大作！比网上其他的文章介绍的好多了~！<br />
+十分感谢！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 23, 2013  9:58 AM">2013年12月23日 09:58</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-294169">#</a>
+ | <a href="#comment-text" title="引用duan的这条留言" onclick="return CommentQuote('comment-quote-294169','duan');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-295088" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kan</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-295088">
+            <p>有例子可以运行，不懂得运行就可以理解了。非常感谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 29, 2013 11:29 AM">2013年12月29日 11:29</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-295088">#</a>
+ | <a href="#comment-text" title="引用kan的这条留言" onclick="return CommentQuote('comment-quote-295088','kan');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-301794" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">苍蝇和竹子</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-301794">
+            <p>jQuery规定，$.Deferred()可以接受一个函数名（注意，是函数名）作为参数</p>
+
+<p>这个“函数名”怎么理解。。？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  4, 2014  2:09 AM">2014年3月 4日 02:09</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-301794">#</a>
+ | <a href="#comment-text" title="引用苍蝇和竹子的这条留言" onclick="return CommentQuote('comment-quote-301794','苍蝇和竹子');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-303954" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kai</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-303954">
+            <p>博主，有一个问题请教，假设有4个function，A,B,C,D,每个function都有异步调用的操作，我现在需要按顺序执行这4个function，而且要求只有前一个function执行完毕之后，下一个function才能开始。请问用 Deferred 这个函数能完成这样的功能么，如果能，还望不吝赐教</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 21, 2014  5:00 PM">2014年3月21日 17:00</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-303954">#</a>
+ | <a href="#comment-text" title="引用kai的这条留言" onclick="return CommentQuote('comment-quote-303954','kai');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-304864" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">lee</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-304864">
+            <blockquote>
+<pre>引用kai的发言：</pre>
+
+<p>博主，有一个问题请教，假设有4个function，A,B,C,D,每个function都有异步调用的操作，我现在需要按顺序执行这4个function，而且要求只有前一个function执行完毕之后，下一个function才能开始。请问用 Deferred 这个函数能完成这样的功能么，如果能，还望不吝赐教</p>
+
+</blockquote>
+
+<p>A.then(B).then(C).then(D)</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 27, 2014  3:42 PM">2014年3月27日 15:42</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-304864">#</a>
+ | <a href="#comment-text" title="引用lee的这条留言" onclick="return CommentQuote('comment-quote-304864','lee');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-305718" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">kai</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-305718">
+            <blockquote>
+<pre>引用lee的发言：</pre>
+
+<p></p>
+
+<p>A.then(B).then(C).then(D)</p>
+
+</blockquote>
+
+<p>这样恐怕不行，A,B,C,D是四个异步函数，你可以自己试试</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 30, 2014 10:35 AM">2014年3月30日 10:35</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-305718">#</a>
+ | <a href="#comment-text" title="引用kai的这条留言" onclick="return CommentQuote('comment-quote-305718','kai');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-307762" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://weibo.com/chaojidan" href="http://weibo.com/chaojidan" target="_blank" rel="nofollow">希格斯粒子</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-307762">
+            <p>不过，更好的写法是allenm所指出的，将dtd对象变成wait(）函数的内部对象。</p>
+
+<p>    　　var wait = function(dtd){</p>
+
+<p>这句代码function里面的dtd是多余的吧？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  4, 2014 11:08 AM">2014年4月 4日 11:08</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-307762">#</a>
+ | <a href="#comment-text" title="引用希格斯粒子的这条留言" onclick="return CommentQuote('comment-quote-307762','希格斯粒子');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-307931" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">lee</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-307931">
+            <blockquote>
+<pre>引用kai的发言：</pre>
+
+<p></p>
+
+<p>这样恐怕不行，A,B,C,D是四个异步函数，你可以自己试试</p>
+
+</blockquote>
+
+<p><a href="http://jsfiddle.net/yCv8S/" rel="nofollow">http://jsfiddle.net/yCv8S/</a></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  4, 2014  4:30 PM">2014年4月 4日 16:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-307931">#</a>
+ | <a href="#comment-text" title="引用lee的这条留言" onclick="return CommentQuote('comment-quote-307931','lee');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-319763" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">vajoy</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-319763">
+            <p>是dfd不是dtd吧？ 0。0</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 30, 2014  8:55 PM">2014年4月30日 20:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-319763">#</a>
+ | <a href="#comment-text" title="引用vajoy的这条留言" onclick="return CommentQuote('comment-quote-319763','vajoy');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-321883" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">高军</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-321883">
+            <p>        var wait = function (dfd) {<br />
+            var task = function () {<br />
+                alert('completed!!');<br />
+                dfd.resolve();<br />
+            }<br />
+            setTimeout(task, 5000);<br />
+        }<br />
+        $.Deferred(wait).done(function () {<br />
+            alert('done')<br />
+        });<br />
+个人觉得这种方式比较简单，也相对好理解；<br />
+另外，对于$.Deferred().promise();最后那句总结很明确了---> 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May  7, 2014  2:19 PM">2014年5月 7日 14:19</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-321883">#</a>
+ | <a href="#comment-text" title="引用高军的这条留言" onclick="return CommentQuote('comment-quote-321883','高军');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-323511" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.xuexb.com" href="http://www.xuexb.com" target="_blank" rel="nofollow">谢亮</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-323511">
+            <p>赞个</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 15, 2014  1:11 PM">2014年5月15日 13:11</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-323511">#</a>
+ | <a href="#comment-text" title="引用谢亮的这条留言" onclick="return CommentQuote('comment-quote-323511','谢亮');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-334148" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">苏国潮</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-334148">
+            <p>你好，我现在遇到一个问题，就是怎么在执行ajax时触发 defferd.progress的回调函数？<br />
+收到留言恳请回复我的邮箱。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 18, 2014 12:13 PM">2014年8月18日 12:13</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-334148">#</a>
+ | <a href="#comment-text" title="引用苏国潮的这条留言" onclick="return CommentQuote('comment-quote-334148','苏国潮');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-336213" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">by</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-336213">
+            <p>不错，相当精辟，深入浅出。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  2, 2014  9:59 AM">2014年9月 2日 09:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-336213">#</a>
+ | <a href="#comment-text" title="引用by的这条留言" onclick="return CommentQuote('comment-quote-336213','by');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-336583" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">L.YK</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-336583">
+            <p>　var dtd = $.Deferred(); // 新建一个deferred对象<br />
+　　var wait = function(dtd){<br />
+　　　　var tasks = function(){<br />
+　　　　　　alert("执行完毕！");<br />
+　　　　　　dtd.resolve(); // 改变deferred对象的执行状态<br />
+　　　　};<br />
+　　　　setTimeout(tasks,5000);<br />
+　　　　return dtd;<br />
+　　};</p>
+
+<p>可以写成下面这样吧？</p>
+
+<p>　var dtd = $.Deferred(); // 新建一个deferred对象<br />
+　　var wait = function(){<br />
+　　　　var tasks = function(){<br />
+　　　　　　alert("执行完毕！");<br />
+　　　　　　dtd.resolve(); // 改变deferred对象的执行状态<br />
+　　　　};<br />
+　　　　setTimeout(tasks,5000);<br />
+　　};<br />
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  4, 2014  3:47 PM">2014年9月 4日 15:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-336583">#</a>
+ | <a href="#comment-text" title="引用L.YK的这条留言" onclick="return CommentQuote('comment-quote-336583','L.YK');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-342216" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Jacky</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-342216">
+            <p>既然是详解，建议加上如何通过resolve返回原函数的执行结果，即如何像回调函数一样传递执行结果。我搞了一下午才搞清楚。<br />
+示例：</p>
+
+<p>　var wait = function(dtd){<br />
+　　　　var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象<br />
+　　　　var tasks = function(){<br />
+　　　　　　alert("执行完毕！");<br />
+　　　　　　dtd.resolve(new Date()); // 执行完成后，返回当前时间<br />
+　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);<br />
+　　　　return dtd.promise(); // 返回promise对象<br />
+　　};<br />
+　　$.when(wait())<br />
+　　.done(function(time){ alert("完成时间：" + time); })<br />
+　　.fail(function(){ alert("出错啦！"); });</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 27, 2014  5:24 PM">2014年10月27日 17:24</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-342216">#</a>
+ | <a href="#comment-text" title="引用Jacky的这条留言" onclick="return CommentQuote('comment-quote-342216','Jacky');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-344800" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">国安信徒</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-344800">
+            <p>$.Deferred(wait),这样写的话，如果我想往wait里面传递参数的话，除了换成用$.when实现的话，有什么办法？谢谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="November 25, 2014 11:32 AM">2014年11月25日 11:32</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-344800">#</a>
+ | <a href="#comment-text" title="引用国安信徒的这条留言" onclick="return CommentQuote('comment-quote-344800','国安信徒');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-346777" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://暂时还木有" href="http://暂时还木有" target="_blank" rel="nofollow">潇意</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-346777">
+            <p>跟着跑了一遍，赶脚都能懂，只是不太明白when这些函数的原理</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 30, 2014  5:54 PM">2014年12月30日 17:54</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-346777">#</a>
+ | <a href="#comment-text" title="引用潇意的这条留言" onclick="return CommentQuote('comment-quote-346777','潇意');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-346955" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">rgshare</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-346955">
+            <p>代码示例11里面的dtd变量似乎有些让人迷惑，改成this是不是要好一些？<br />
+如：<br />
+var wait = function(dtd){</p>
+
+<p>        var that = this;<br />
+　　　　var tasks = function(){</p>
+
+<p>　　　　　　console.log("执行完毕！");<br />
+            that.resolve(); // 改变Deferred对象的执行状态</p>
+
+<p>　　　　};</p>
+
+<p>　　　　setTimeout(tasks,5000);</p>
+
+<p>　　　　return that.promise();</p>
+
+<p>　　};<br />
+//...</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  5, 2015 10:30 AM">2015年1月 5日 10:30</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-346955">#</a>
+ | <a href="#comment-text" title="引用rgshare的这条留言" onclick="return CommentQuote('comment-quote-346955','rgshare');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-347119" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">hegfirose</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-347119">
+            <blockquote>$.when()的参数只能是deferred对象</blockquote> 
+
+<p>这个表述有问题，jQuery 官方文档：</p>
+
+<blockquote>If a single argument is passed to jQuery.when() and it is not a Deferred or a Promise, it will be treated as a resolved Deferred and any doneCallbacks attached will be executed immediately. </blockquote>
+
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  9, 2015  2:22 PM">2015年1月 9日 14:22</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-347119">#</a>
+ | <a href="#comment-text" title="引用hegfirose的这条留言" onclick="return CommentQuote('comment-quote-347119','hegfirose');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-347215" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">孙成利</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-347215">
+            <p>实例8是怎么个执行顺序啊，不解</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 14, 2015  5:51 PM">2015年1月14日 17:51</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-347215">#</a>
+ | <a href="#comment-text" title="引用孙成利的这条留言" onclick="return CommentQuote('comment-quote-347215','孙成利');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-347973" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zwCai</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-347973">
+            <blockquote>
+<pre>引用小小僧的发言：</pre>
+
+<p></p>
+
+<p>如果success被取消了，<br />
+success:function(rel){//处理rel}<br />
+那之前的ajax返回的数据怎么传递给done()?</p>
+
+</blockquote>
+.done(function(data))//data 就是返回的数据
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  9, 2015  4:36 PM">2015年2月 9日 16:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-347973">#</a>
+ | <a href="#comment-text" title="引用zwCai的这条留言" onclick="return CommentQuote('comment-quote-347973','zwCai');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-348072" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">YJB</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-348072">
+            <p>请教大侠一个问题：<br />
+我是用PHP+JQUERY+AJAX+MYSQL构建的网站，在一个主页面中加载了两个AJAX,也就是引入了两个.JS文件<br />
+，在具体执行时总是排在后面的$.AJAX()请求被执行，前一个不执行；也就是说这两个.JS文件谁放在后面谁执行。怎样处理让这两个请求分别执行？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 13, 2015 10:09 AM">2015年2月13日 10:09</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-348072">#</a>
+ | <a href="#comment-text" title="引用YJB的这条留言" onclick="return CommentQuote('comment-quote-348072','YJB');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-348965" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">李培杰</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-348965">
+            <p>正在学习，很受用</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April  8, 2015  3:31 PM">2015年4月 8日 15:31</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-348965">#</a>
+ | <a href="#comment-text" title="引用李培杰的这条留言" onclick="return CommentQuote('comment-quote-348965','李培杰');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-349138" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://zhanqi.net/blog/" href="http://zhanqi.net/blog/" target="_blank" rel="nofollow">zhanqi</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-349138">
+            <p>写得很清楚</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 16, 2015  3:59 PM">2015年4月16日 15:59</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-349138">#</a>
+ | <a href="#comment-text" title="引用zhanqi的这条留言" onclick="return CommentQuote('comment-quote-349138','zhanqi');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-349204" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.weidong.xyz" href="http://www.weidong.xyz" target="_blank" rel="nofollow">网名很难取</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-349204">
+            <p>能不能来点实际的案例，这样才能真正的运用起deferred对象--这个API！不然说了这么多也没有起到作用，真正会用的人不会看，不会用的人看了也不会实际运用！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 21, 2015  4:42 PM">2015年4月21日 16:42</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-349204">#</a>
+ | <a href="#comment-text" title="引用网名很难取的这条留言" onclick="return CommentQuote('comment-quote-349204','网名很难取');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-349209" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">z-reg</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-349209">
+            <p>怎么想后台来传送数据啊？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 21, 2015  7:05 PM">2015年4月21日 19:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-349209">#</a>
+ | <a href="#comment-text" title="引用z-reg的这条留言" onclick="return CommentQuote('comment-quote-349209','z-reg');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-349325" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://mustrank.com/blog/list.html" href="http://mustrank.com/blog/list.html" target="_blank" rel="nofollow">wengeezhang</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-349325">
+            <p>deferred感觉不符合标准，还是原生的Promise比较好。chrome 42已经内置Promise.http://mustrank.com/blog/Promise.html</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="April 30, 2015 10:57 AM">2015年4月30日 10:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-349325">#</a>
+ | <a href="#comment-text" title="引用wengeezhang的这条留言" onclick="return CommentQuote('comment-quote-349325','wengeezhang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-350407" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">一个程序员</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-350407">
+            <p>Promise当reject时, 没有任务程序去处理, 不是就会被忽略了, 不能像throw那样, 最后报错. <br />
+这个问题是, 我在使用Promise时, 发现如果我没有调用catch(), 也不报错, 经常因为没有catch(), 没发现错误. <br />
+有什么办法可解决, 当没有catch时, 就抛出错误? </p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="June 19, 2015 10:06 PM">2015年6月19日 22:06</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-350407">#</a>
+ | <a href="#comment-text" title="引用一个程序员的这条留言" onclick="return CommentQuote('comment-quote-350407','一个程序员');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-350756" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jonasli</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-350756">
+            <p>hi，您好， 第七种的最后一个例子 改为了内部局部变量，为什么还要返回dtd.promise(),直接返回dtd，外边的不是也没有办法操作dtd了吗，求解？多谢</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 11, 2015  2:47 PM">2015年7月11日 14:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-350756">#</a>
+ | <a href="#comment-text" title="引用jonasli的这条留言" onclick="return CommentQuote('comment-quote-350756','jonasli');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-350807" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">戈饭</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-350807">
+            <p>看文档术语太多晕晕的，看这个一下就懂，再看文档全懂了。<br />
+果然会讲课的好老师太重要了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July 14, 2015  4:34 PM">2015年7月14日 16:34</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-350807">#</a>
+ | <a href="#comment-text" title="引用戈饭的这条留言" onclick="return CommentQuote('comment-quote-350807','戈饭');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-351424" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">水墨丹青</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-351424">
+            <blockquote>
+<pre>引用jonasli的发言：</pre>
+
+<p>hi，您好， 第七种的最后一个例子 改为了内部局部变量，为什么还要返回dtd.promise(),直接返回dtd，外边的不是也没有办法操作dtd了吗，求解？多谢</p>
+
+</blockquote>
+
+<p>其实改为了内部局部变量之后，是不需要返回dtd.promise()，直接返回dtd就行，不过为啥要返回dtd？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 25, 2015  4:05 PM">2015年8月25日 16:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-351424">#</a>
+ | <a href="#comment-text" title="引用水墨丹青的这条留言" onclick="return CommentQuote('comment-quote-351424','水墨丹青');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352236" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://evileon" href="http://evileon" target="_blank" rel="nofollow">evilemon</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352236">
+            <p>实例10上面的wait函数应该为形参为空</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 19, 2015  6:05 PM">2015年10月19日 18:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-352236">#</a>
+ | <a href="#comment-text" title="引用evilemon的这条留言" onclick="return CommentQuote('comment-quote-352236','evilemon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-352338" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Rick</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-352338">
+            <blockquote>
+<pre>引用水墨丹青的发言：</pre>
+
+<p>其实改为了内部局部变量之后，是不需要返回dtd.promise()，直接返回dtd就行，不过为啥要返回dtd？</p>
+
+</blockquote>
+
+<p>应该返回dtd或者promise都可以， 但必须返回，因为when的参数必须是defered对象，否则done会马上触发。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="October 24, 2015  4:43 AM">2015年10月24日 04:43</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-352338">#</a>
+ | <a href="#comment-text" title="引用Rick的这条留言" onclick="return CommentQuote('comment-quote-352338','Rick');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353029" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">渣渣</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353029">
+            <p>打开http://jsfiddle.net里的示例不是太卡就打不开，阮大师能否把示例放到<br />
+www.jsbin.com上？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  2, 2015  3:10 PM">2015年12月 2日 15:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353029">#</a>
+ | <a href="#comment-text" title="引用渣渣的这条留言" onclick="return CommentQuote('comment-quote-353029','渣渣');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353164" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">谢武</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353164">
+            <p>运行代码9感觉没啥用，还是可以用dfd来从外面触发resolve</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  8, 2015  5:11 PM">2015年12月 8日 17:11</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353164">#</a>
+ | <a href="#comment-text" title="引用谢武的这条留言" onclick="return CommentQuote('comment-quote-353164','谢武');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353165" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">谢武</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353165">
+            <blockquote>
+<pre>引用谢武的发言：</pre>
+
+<p>运行代码9感觉没啥用，还是可以用dfd来从外面触发resolve</p>
+
+</blockquote>
+
+<p>是可以的漏看了把事件绑定在promise上那啦</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December  8, 2015  5:21 PM">2015年12月 8日 17:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353165">#</a>
+ | <a href="#comment-text" title="引用谢武的这条留言" onclick="return CommentQuote('comment-quote-353165','谢武');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353211" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">whws</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353211">
+            <p>直接执行wait函数的情况应该很少吧，大多数情况都是需要传参调用的，那如何传参呢？<br />
+大多数函数都需要返回值的，那你这里返回 dtd，其他数据怎么返回呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 10, 2015  4:56 PM">2015年12月10日 16:56</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353211">#</a>
+ | <a href="#comment-text" title="引用whws的这条留言" onclick="return CommentQuote('comment-quote-353211','whws');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353346" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">w</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353346">
+            <blockquote>
+<pre>引用whws的发言：</pre>
+
+<p>直接执行wait函数的情况应该很少吧，大多数情况都是需要传参调用的，那如何传参呢？<br />
+大多数函数都需要返回值的，那你这里返回 dtd，其他数据怎么返回呢？</p>
+
+</blockquote>
+
+<p>resolve,reject调用作为参数传递，done,fail接收就行、</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 16, 2015  2:23 PM">2015年12月16日 14:23</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353346">#</a>
+ | <a href="#comment-text" title="引用w的这条留言" onclick="return CommentQuote('comment-quote-353346','w');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353478" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">whws</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353478">
+            <blockquote>
+<pre>引用w的发言：</pre>
+
+<p></p>
+
+<p>resolve,reject调用作为参数传递，done,fail接收就行、</p>
+
+</blockquote>
+
+<p>你说的这个是接收数据返回值。<br />
+我上面还有一个问题呢，如何给 wait 函数传参呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 23, 2015  3:17 PM">2015年12月23日 15:17</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353478">#</a>
+ | <a href="#comment-text" title="引用whws的这条留言" onclick="return CommentQuote('comment-quote-353478','whws');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353510" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://ichunming.com" href="http://ichunming.com" target="_blank" rel="nofollow">下雨天顶着蘑菇</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353510">
+            <p>刚好工作中用到这个，学习了一下，谢谢分享</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="December 24, 2015  4:46 PM">2015年12月24日 16:46</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353510">#</a>
+ | <a href="#comment-text" title="引用下雨天顶着蘑菇的这条留言" onclick="return CommentQuote('comment-quote-353510','下雨天顶着蘑菇');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353814" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://xuexb.com" href="https://xuexb.com" target="_blank" rel="nofollow">小武</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353814">
+            <p>感觉 这句话不太对，因为done返回一个promise时不会被处理，并且done的参数始终是defer被resolve时的参数，而then会把当前callback的返回值做为下一个then的参数，并且then里的promise会被等待处理掉（当然可能成功或者失败了）</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  6, 2016  7:35 PM">2016年1月 6日 19:35</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353814">#</a>
+ | <a href="#comment-text" title="引用小武的这条留言" onclick="return CommentQuote('comment-quote-353814','小武');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353816" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://xuexb.com" href="https://xuexb.com" target="_blank" rel="nofollow">小武</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353816">
+            <blockquote>
+<pre>引用小武的发言：</pre>
+
+<p>感觉 这句话不太对，</p>
+
+</blockquote>
+
+<p>这句话是：有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  6, 2016  7:36 PM">2016年1月 6日 19:36</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353816">#</a>
+ | <a href="#comment-text" title="引用小武的这条留言" onclick="return CommentQuote('comment-quote-353816','小武');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-353912" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">随缘</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-353912">
+            <p>@陈希章：</p>
+
+<p>你可以将你的操作拆分成小的碎片，利用匿名函数与闭包，每100ms中断一次，用setTimeout方法，这样浏览器就会有足够的渲染时间了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 10, 2016 12:15 PM">2016年1月10日 12:15</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-353912">#</a>
+ | <a href="#comment-text" title="引用随缘的这条留言" onclick="return CommentQuote('comment-quote-353912','随缘');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-354634" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Chan</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-354634">
+            <p>請教一下，promise 的功能，是怕 deferred 是 global 變數的時候會被外部影響，但如果是直接調用 $.Deferred 是不是就沒這個問題，像這樣寫</p>
+
+<p>let roll = () => {<br />
+    return $.Deferred((dfd) => {<br />
+        setTimeout(() => {<br />
+            dfd.resolve();<br />
+        }, 2000);<br />
+    });<br />
+};</p>
+
+<p>$.when(roll()).then(() => {<br />
+    console.log('all done');<br />
+});</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 24, 2016  8:46 AM">2016年2月24日 08:46</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-354634">#</a>
+ | <a href="#comment-text" title="引用Chan的这条留言" onclick="return CommentQuote('comment-quote-354634','Chan');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-354660" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.cnblogs.com/gibbonnet/p/5216687.html" href="http://www.cnblogs.com/gibbonnet/p/5216687.html" target="_blank" rel="nofollow">Gibbon</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-354660">
+            <p></p>
+
+<p><br />
+    // case2, alert success1, fail 1, fail 2<br />
+    var dtd = $.Deferred(); // 新建一个Deferred对象<br />
+    dtd.resolve('success');<br />
+    dtd.then(function(msg){<br />
+         alert( msg + ' 1');<br />
+         return new $.Deferred().reject('fail');<br />
+    }).fail(function(msg){<br />
+        alert( msg + ' 1');<br />
+        return new $.Deferred().resolve('success');<br />
+    }).then(function(msg){<br />
+          alert( msg + ' 2');<br />
+          return msg;<br />
+    }).fail(function(msg){<br />
+        alert( msg + ' 2');<br />
+        return msg;<br />
+    })    <br />
+</p>
+
+<p>这一段代码执行结果是 success1, fail 1, fail 2. 能解释一下否？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 25, 2016  1:21 PM">2016年2月25日 13:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-354660">#</a>
+ | <a href="#comment-text" title="引用Gibbon的这条留言" onclick="return CommentQuote('comment-quote-354660','Gibbon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-354664" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">好炫</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-354664">
+            <p>您好 这个写法很好 但是我有一个疑问<br />
+这个写法可以像ajax 那样获得数据吗？<br />
+$.ajax({<br />
+   success:function(json){}<br />
+})  </p>
+
+<p>.done(function(json){}) //好像没看到相应的例子额</p>
+
+<p>我发现每次都是返回一个defer对象 那数据应该怎么返回呢 求教？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 26, 2016  3:20 PM">2016年2月26日 15:20</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-354664">#</a>
+ | <a href="#comment-text" title="引用好炫的这条留言" onclick="return CommentQuote('comment-quote-354664','好炫');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-354889" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Sameen</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-354889">
+            <p>博主，请问最后总结那里第(4)点是否写错了， deferred.promise() 返回的是一个promise对象吧.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 10, 2016  5:05 PM">2016年3月10日 17:05</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-354889">#</a>
+ | <a href="#comment-text" title="引用Sameen的这条留言" onclick="return CommentQuote('comment-quote-354889','Sameen');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-356650" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">mir</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-356650">
+            <p>function foo() {<br />
+  return $.Deferred(function (defer) {<br />
+    ...<br />
+  }).promise();<br />
+}<br />
+我一直用的是这种写法，这样的好处是原始代码极易修改，只要将原来的方法体用这两句话包裹起来，把里面原本return的部分改成defer.resolve()就可以了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="May 26, 2016  4:22 PM">2016年5月26日 16:22</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-356650">#</a>
+ | <a href="#comment-text" title="引用mir的这条留言" onclick="return CommentQuote('comment-quote-356650','mir');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-360093" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">SCLeo</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-360093">
+            <p>难道这就是传说中的Promise >.></p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  4, 2016 12:47 AM">2016年7月 4日 00:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-360093">#</a>
+ | <a href="#comment-text" title="引用SCLeo的这条留言" onclick="return CommentQuote('comment-quote-360093','SCLeo');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-360293" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">zhou</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-360293">
+            <p>在【五、普通操作的回调函数接口（上）】中有一句“原因在于$.when()的参数只能是deferred对象，所以必须对wait()进行改写：”jQuery文档是这么说的 If a single argument is passed to jQuery.when() and it is not a Deferred or a Promise, it will be treated as a resolved Deferred and any doneCallbacks attached will be executed immediately.</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="July  6, 2016  5:31 PM">2016年7月 6日 17:31</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-360293">#</a>
+ | <a href="#comment-text" title="引用zhou的这条留言" onclick="return CommentQuote('comment-quote-360293','zhou');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-362828" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://www.easyui.info" href="http://www.easyui.info" target="_blank" rel="nofollow">世纪之光</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-362828">
+            <p>调理清晰，高质量文章。<br />
+不过文中提到的Deferred用于普通函数的场景（典型的大数组的遍历，不是用setTimeout模拟），应该并无多大实际意义吧？javascript的执行队列本来就是在单个线程内完成，这种耗时的计算，执行是同步的，代码顺序写应该比较合理吧，用Deferred的意义在哪里呢？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="August 21, 2016 10:28 AM">2016年8月21日 10:28</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-362828">#</a>
+ | <a href="#comment-text" title="引用世纪之光的这条留言" onclick="return CommentQuote('comment-quote-362828','世纪之光');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-363575" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="http://ahole.cn" href="http://ahole.cn" target="_blank" rel="nofollow">陈豪</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-363575">
+            <p>then 不只是简化那么简单哦，还能做到避免回调地狱哦。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September  1, 2016  4:07 PM">2016年9月 1日 16:07</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-363575">#</a>
+ | <a href="#comment-text" title="引用陈豪的这条留言" onclick="return CommentQuote('comment-quote-363575','陈豪');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-365482" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">frey wang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-365482">
+            <p>为什么大神的名字 这么熟悉，但是我又不知道从哪里得知，好熟悉</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="September 30, 2016  4:50 PM">2016年9月30日 16:50</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-365482">#</a>
+ | <a href="#comment-text" title="引用frey wang的这条留言" onclick="return CommentQuote('comment-quote-365482','frey wang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-371555" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">Ye Zhang</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-371555">
+            <p>学了一年了，现在才知道，囧</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January  4, 2017 10:39 AM">2017年1月 4日 10:39</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-371555">#</a>
+ | <a href="#comment-text" title="引用Ye Zhang的这条留言" onclick="return CommentQuote('comment-quote-371555','Ye Zhang');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-372280" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">jimmy2019</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-372280">
+            <p>第七点，“在原来的deferred对象上返回另一个deferred对象”后面的那个“deferred对象”是不是应该是“promise对象”？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="January 23, 2017  8:33 PM">2017年1月23日 20:33</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-372280">#</a>
+ | <a href="#comment-text" title="引用jimmy2019的这条留言" onclick="return CommentQuote('comment-quote-372280','jimmy2019');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-372337" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">pyfxl</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-372337">
+            <p>感谢这么精彩的文章。<br />
+作者看一下运行实例代码10的第一行</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  3, 2017  7:55 AM">2017年2月 3日 07:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-372337">#</a>
+ | <a href="#comment-text" title="引用pyfxl的这条留言" onclick="return CommentQuote('comment-quote-372337','pyfxl');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-372338" class="comment">
+    <div  class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author"><a title="https://github.com/bspplatformproject/bspplatform" href="https://github.com/bspplatformproject/bspplatform" target="_blank" rel="nofollow">琥珀</a></span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-372338">
+            <p>阮老师，我在使用你的react脚手架的github工程的时候，报错了WebpackOptionsValidationError: Invalid configuration object. Webpack has been in<br />
+itialised using a configuration object that does not match the API schema.我是在windows下开发的，所以直接下了zip包，没有使用git clone，然后运行了npm install npm start 就报错了。这个错误我定位了很久，但是实在是技术不到家，没办法排查出来。请问这个到底是什么原因？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February  3, 2017  8:21 AM">2017年2月 3日 08:21</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-372338">#</a>
+ | <a href="#comment-text" title="引用琥珀的这条留言" onclick="return CommentQuote('comment-quote-372338','琥珀');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    
+        
+        <div id="comment-373384" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+                    
+
+                    <span class="vcard author">羊锡贵</span>
+
+ 说：
+                </span>
+</p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-373384">
+            <p>示例9那里，我把d.resolve改成dtd.resolve就可以改变执行状态了，所以这个示例不对。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 25, 2017  9:35 AM">2017年2月25日 09:35</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html#comment-373384">#</a>
+ | <a href="#comment-text" title="引用羊锡贵的这条留言" onclick="return CommentQuote('comment-quote-373384','羊锡贵');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+        
+    </div>
+        
+    
+
+
+    
+    
+    <div class="comments-open" id="comments-open">
+        <h2 class="comments-open-header">我要发表看法</h2>
+        <div class="comments-open-content">
+
+        
+            <div id="comment-greeting"></div>
+
+            <form method="post" action="http://www.ruanyifeng.com/cgi-bin/mtos/mt-comments.cgi" name="comments_form" id="comments-form" onsubmit="return pleaseWait();">
+                <input type="hidden" name="static" value="1" />
+                <input type="hidden" name="entry_id" value="1665" />
+                <input type="hidden" name="__lang" value="en" />
+                <input type="hidden" name="parent_id" value="" id="comment-parent-id" />
+                <input type="hidden" name="armor" value="1" />
+                <input type="hidden" name="preview" value="" />
+                <input type="hidden" name="sid" value="" />
+                <div id="comments-open-data">
+            <div id="comments-open-text">
+                    <p><label for="comment-text">您的留言
+                    （HTML标签部分可用）</label></p>
+                    <p><textarea id="comment-text" name="text" rows="10" cols="50"></textarea></p>
+                </div>
+                    <div id="comment-form-name">
+                        <p><label for="comment-author">您的大名：</label></p>
+                        <p><input id="comment-author" name="author" size="30" value="" />  <span class="hint"> &laquo;-必填</span></p>
+                    </div>
+                    <div id="comment-form-email">
+                        <p><label for="comment-email">电子邮件：</label></p>
+                        <p><input id="comment-email" name="email" size="30" value="" />  <span class="hint"> &laquo;-必填，不公开</span></p>
+                    </div>
+                    <div id="comment-form-url">
+                        <p><label for="comment-url">个人网址：</label></p>
+                        <p><input id="comment-url" name="url" size="30" value="" />  <span class="hint"> &laquo;-我信任你，不会填写广告链接</span></p>
+                    </div>
+                    <div id="comment-form-remember-me">
+                        <p>
+                        <label for="comment-bake-cookie">记住个人信息？</label><input type="checkbox" id="comment-bake-cookie" name="bakecookie" onclick="!this.checked?forgetMe(document.comments_form):rememberMe(document.comments_form)" value="1" accesskey="r" /></p>
+                    </div>
+                </div>
+                    <div id="comment-form-reply" style="display:none">
+                    <input type="checkbox" id="comment-reply" name="comment_reply" value="" onclick="mtSetCommentParentID()" />
+                    <label for="comment-reply" id="comment-reply-label"></label>
+                </div>
+                <div id="comments-open-captcha"></div>
+                <div id="comments-open-footer">
+<div id="wait" style="display:none;">
+<p><strong>正在发表您的评论，请稍候</strong></p>
+<p>
+<input type="text" name="percent" size="3" style="font-family:Arial; color:black;text-align:center; border-width:medium; border-style:none;">           
+<input type="text" name="chart" size="46" style="font-family:Arial;font-weight:bolder; color:black; padding:0px; border-style:none;">
+</p>
+</div>
+
+                    <p><input type="submit" accesskey="s" name="post" id="comment-submit" value="发表" />  <span class="hint"> &laquo;- 点击按钮</span></p>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+
+    
+
+
+</div>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <script type="text/javascript" src="http://www.ruanyifeng.com/blog/js/prism.js"></script>
+
+            <div id="footer">
+    <div id="footer-inner">
+        <div id="footer-content">
+<p><a href="/contact.html">联系方式</a> | ruanyifeng.com 2003 - 2017
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46829782-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+<!-- Site Meter -->
+<a href="http://sm3.sitemeter.com/stats.asp?site=sm3bomoocom" target="_top">
+<img src="http://sm3.sitemeter.com/meter.asp?site=sm3bomoocom" alt="Site Meter" border="0"/></a>
+
+<!-- Copyright (c)2009 Site Meter -->
+
+</p>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="share_button_proto" style="display:none;">
+<a class="bshareDiv" href="http://www.bshare.cn/share">分享按钮</a>
+
+
+
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=15e016b4-0028-44f1-a40d-a3c9d9c13c28&style=10&bgcolor=#fff&bp=facebook,twitter,sinaminiblog,weixin,gplus,qqmb,qzone,douban,qqim,fanfou,instapaper,xueqiu&ssc=false"></script>
+<script type="text/javascript" charset="utf-8">
+bShare.addEntry({
+    title: document.getElementById("page-title").innerHTML,
+url:window.location.href
+});
+</script>
+</div>
+
+<script>
+document.getElementById("share_button").innerHTML=document.getElementById("share_button_proto").innerHTML;
+</script>
+
+
+
+
+        </div>
+    </div>
+</body>
+</html>

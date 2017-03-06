@@ -135,24 +135,25 @@ p{margin: 10px 0px;}.purple{color:#da00ff;}.green{color:#039203;}#tips{position:
 #text-indent{text-indent: 2rem;width: 200px;border:1px dashed #000;}
 #strict_mode li{list-style-type:decimal;margin-left: 1.5em;}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*jQuery*/
+#for_fade_warp{width: 100px;height: 100px;}
+#for_fade{width: 100px;height: 100px;background-color: #FF7F00;}
+#for_slide_warp{width: 200px;height: 60px;}
+#for_slide{width: 200px;height: 60px;background-color: #FF7F00;}
+#for_animate_waro{width: 200px;height: 200px;border: 1px solid #000;position: relative;}
+#for_animate{width: 40px;height: 40px;background-color:#FF7F00;position: absolute;}
+.pointer{cursor: pointer;}
+#for_chaining{width: 50px;height: 50px;background-color: #FF7F00;position: relative;}
+#remove_main{width: 100px;height: 50px;border: 1px #000 solid;}
+.remove_div1{width:50px;height: 50px;background-color: red;float: left;}
+.remove_div2{width:50px;height: 50px;background-color: #FF7F00;float: left;}
+#for_catch_size{width: 50px;height: 50px;padding: 10px;margin: 10px 10px;border: 5px solid #000;background-color: #FF7F00;}
+#ajax_load,#ajax_get,#ajax_post,#ajax_ajax{color:blue;cursor: pointer;text-decoration: underline;}
+.click_it{color: blue;text-decoration: underline;cursor: pointer;}
+#serialize_form{border: 1px solid #000;width: 200px;}
+#serialize_form p{text-align: center;}
+#serialize_form_cont{background-color: #FFFF00;width: 600px;}
+#serialize_form_json_cont{background-color: #FFFF00;width: 600px;}
 
 
 

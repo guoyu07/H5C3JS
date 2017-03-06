@@ -989,9 +989,6 @@ require('include/header.inc.php');
                 <span>"2:3:4:5".split(":");将返回["2", "3", "4", "5"]<br/></span>
                 <span class='red'>字符串小写 str.toLowerCase()</span>
                 <span class='red'>字符串大写 str.toUpperCase()</span>
-
-
-
                 <script>
                     "use strict";
                     var str1 = 'buffge', str2 = str1.slice(2, 4);
@@ -1094,7 +1091,7 @@ require('include/header.inc.php');
     </div>
 
     <div id="Browser_obj">
-        <h3>浏览器 对象</h3>
+        <h3>浏览器 对象</h3><hr/>
     </div>
     <div id="HtmlDom_obj">
         <h3>文档结构模型DOM 对象</h3>
@@ -1105,8 +1102,251 @@ require('include/header.inc.php');
 
 
 
+    <hr/>
+</div>
+
+<div id="jquery">
+    <h2>jQuery</h2>
+    <div>
+        <p>
+            <span class="red">隐藏 显示</span>
+            <span>hide() show() toggle()<br/></span>
+            <input type="button" id="hide" value="隐藏"/>
+            <input type="button" id="show" value="显示"/>
+            <input type="button" id="toggle" value="toggle"/>
+            <span id="for_hide">我将会被隐藏 </span><br/>
+            <span>可在参数1中定义动作时间 1000为1s</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>淡入,淡出 fadeIn(),fadeOut(),fadeTo() <br/></span>
+            <input type="button" id="fadein" value="淡入"/>
+            <input type="button" id="fadeout" value="淡出"/>
+            <input type="button" id="fadetoggle" value="淡入/出"/>
+            <input type="button" id="fadeto" value="淡至"/><br/>
+            <span class='purple'>可以在第2或3个参数中添加回调函数,当淡入淡出完成后执行回调函数<br/></span>
+        </p>
+        <div id="for_fade_warp"><div id="for_fade"></div></div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>滑动 slideDown() slideUp() slideToggle()<br/></span>
+            <input type="button" id="slideDown" value="滑下"/>
+            <input type="button" id="slideUp" value="滑上"/>
+            <input type="button" id="slideToggle" value="滑上/下"/>
+        </p>
+        <div id="for_slide_warp"><div id="for_slide"></div></div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>动画 animate()<br/></span>
+            <input type="button" id="animate"  value="动起来"/>
+            <input type="button" id="animate_stop"  value="停止动画"/><br/>
+            <span class="blue">回调函数 </span>
+            <span>$('#id').hide(3000,function...)<br/></span>
+            <span>当hide执行完毕后再执行后面的函数 <br/></span>
+            <input id="callback" type="button" value="隐藏下面的文字"/>
+        </p>
+        <div id="for_animate_waro"><div id="for_animate"></div></div>
+        <div>
+            <p id="callback_hide">我消失后 点击下一句话会将他的颜色变成红色,消失前点击无效</p>
+            <p id="for_callback">请等待上一句话hide完毕再点击我</p>
+        </div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>chaining 连续执行多段函数 <br/></span>
+            <span>点击<a href="javascript:;" style="color:blue;" id="chaining">这里</a>下面的div先变长再变高在变小 <br/></span>
+        </p>
+        <div id="for_chaining"></div><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>获取dom 内容 <br/></span>
+            <span class='red'>text()获取/修改文本,html()获取/修改html标签以及文本,val()获取/修改数值 <br/></span>
+            <input type="text" id="catch_val"/>
+            <span>输入后,将会将输入值 输出到console <br/></span>
+            <span id="catch_text" class="under_line pointer">点击获取本元素text内容到console</span><br/>
+            <span id="catch_html" class="under_line pointer">点击获取本元素html内容到console</span><br/>
+            <span><input type="button" value="修改上面的catch_text的文本内容为hello" id="change_catch_text"/><br/></span>
+            <span><input type="button" value="修改上面的catch_html的文本内容为<b>hello</b>" id="change_catch_html"/><br/></span>
+            <span class="red">获取属性 attr()<br/></span>
+            <input type="button" value="获取下面链接的href" id="catch_attr"/><br/>
+            <input type="button" value="修改下面链接的href" id="change_catch_attr"/><br/>
+            <a href="http://www.buffge.com/" id="for_attr" title="buff鸽网络">这是一个普通的链接</a>
+            <span id="show_attr">这个链接的href是: </span><br/>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>添加HTML内容 append(),prepend(),after(),before()<br/></span>
+            <span id="for_append">this is original text</span><br/>
+            <input type="button" id="append" value="结尾添加文本"/><br/>
+            <input type="button" id="prepend" value="开头添加文本"/><br/>
+            <span id="for_before_add">this is original text<br/></span>
+            <input type="button" id="after_add" value="元素之后添加文本"/><br/>
+            <input type="button" id="before_add" value="元素之前添加文本"/><br/>
+            <input type="button" id="meta_add_author" value="meta中添加作者"/><br/>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>删除元素/内容 remove(),empty()<br/></span>
+            <span><input type="button" value="删除maindiv以及他里面的所有内容" id="remove"/><br/></span>
+            <span><input type="button" value="删除maindiv内所有内容" id="empty"/><br/></span>
+            <span><input type="button" value="删除maindiv内class=div2的元素" id="remove_filter"/><br/></span>
+        </p>
+        <div id="remove_main"><div class="remove_div1"></div><div class="remove_div2"></div></div>
+        <hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>css类的操作<br/></span>
+            <span id="for_class_oper">这是一段黑色字体的文本<br/></span>
+            <span><input type="button" id="add_class" value="添加red类"/><br/></span>
+            <span><input type="button" id="remove_class" value="删除red类"/><br/></span>
+            <span><input type="button" id="toggle_class" value="添加/删除,切换red类"/><br/></span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>css属性<br/></span>
+            <span style="font-size: 18px;" id="catch_css_attr">点击获取本文本的font-size值, font-size = </span><br/>
+            <span><input type="button" value="设置上面文本样式" id="set_css_style"/><br/></span>
+
+        </p>
+        <hr/>
+    </div>
+
+    <div id="catch_size">
+        <p>
+            <span class='red'>获取设置元素 尺寸 宽/高<br/></span>
+            <span>获取width() </span><br/>
+            <span>获取innerwidth() </span><br/>
+            <span>获取outerwidth() </span><br/>
+            <span>获取outerwidth(true) </span><br/>
+            <span class="purple">文档的宽度 $(document).width()<br/></span>
+            <span class="purple">浏览器窗口的宽度 $(window).width()<br/></span>
+        </p>
+        <div style="width: 100px;height: 100px;border:dashed 1px #000;"><div id="for_catch_size"></div></div>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>遍历<br/></span>
+            <span class='red'>父级<br/></span>
+            <span class="blue"> ele.parent()</span>
+            <span> 元素的直接父级<br/></span>
+            <span class="blue"> ele.parents()</span>
+            <span> 元素的所有父级<br/></span>
+            <span class="blue"> ele.parents('ul')</span>
+            <span> 元素的所有父级元素中为标签为ul的元素<br/></span>
+            <span class="blue"> ele.parentUntil('.end')</span>
+            <span> 元素的所有父级直到但不包括class为end的元素<br/></span>
+            <span class='red'>子级<br/></span>
+            <span class="blue"> ele.children()</span>
+            <span> 元素的直接子级<br/></span>
+            <span class="blue"> ele.children('.someclass')</span>
+            <span> 元素的直接子级中class为someclass的元素<br/></span>
+            <span class="blue"> ele.find('*')</span>
+            <span> 元素内的所有元素<br/></span>
+            <span class="blue"> ele.find('span')</span>
+            <span> 元素内的所有元素中标签为span的元素<br/></span>
+            <span class='red'>同胞<br/></span>
+            <span class="blue"> ele.siblings()</span>
+            <span> 元素的所有同胞<br/></span>
+            <span class="blue"> ele.next()</span>
+            <span> 元素的下一个同胞<br/></span>
+            <span class="blue"> ele.nextAll()</span>
+            <span> 元素的之后所有同胞<br/></span>
+            <span class="blue"> ele.nextUntil('p')</span>
+            <span> 元素的之后所有同胞直到遇到p标签<br/></span>
+            <span class="blue"> ele.prev()</span>
+            <span> 元素的上一个同胞<br/></span>
+            <span class="blue"> ele.prevAll()</span>
+            <span> 元素的之前所有同胞<br/></span>
+            <span class="blue"> ele.prevUntil('p')</span>
+            <span> 元素的之前所有同胞直到p标签<br/></span>
+            <span class='red'>过滤<br/></span>
+            <span class="blue"> ele.first()</span>
+            <span> 第一个此元素<br/></span>
+            <span class="blue"> ele.last()</span>
+            <span> 最后一个此元素<br/></span>
+            <span class="blue"> ele.eq(i) 从0开始记</span>
+            <span> 第i个此元素<br/></span>
+            <span class="blue"> ele.filter('.aa')</span>
+            <span>此类元素中含有类名aa的元素<br/></span>
+            <span class="blue"> ele.not('.aa')</span>
+            <span> 此类元素中不含有类名aa的元素<br/></span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>AJAX <br/></span>
+            <span class='red'>load(url,{键:值},function(返回文本,返回状态))<br/></span>
+            <span id="for_load"></span><br/>
+            <span>点击<span id="ajax_load">这里</span>从服务器load 一句古诗输出到上面的节点中<br/></span>
+            <span>点击<span id="ajax_get">这里</span>从服务器get 一句古诗输出到上面的节点中<br/></span>
+            <span>点击<span id="ajax_post">这里</span>从服务器post{name:'李白'}  返回一句古诗输出到上面的节点中<br/></span>
+            <span>点击<span id="ajax_ajax">这里</span>从服务器ajax({someSettings})  返回一句古诗输出到上面的节点中<br/></span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>jQuery符号冲突设置 $.noConflict()<br/></span>
+            <span>取消对$的引用并返回jQuery对象.可设置为$为其他如 jq; var jq = $noConfilict();<br/></span>
+            <span>也可以在jQuery(function($){...});设置$为jQuery对象<br/></span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>jq扩展函数$.fn.extend();<br/></span>
+            <span id="extend_fun">点击这段话颜色会变成红色,使用的扩展函数red_color()</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>延迟对象 $.Deferred()<br/></span>
+            <span>输出队列演示: 点击<span class="click_it defer_out">这里</span>下面的输出将会一步一步的执行<br/></span>
+            <span class="green">没看懂 下次继续++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+        </p><hr/>
+    </div>
+
+    <div>
+        <p>
+            <span class='red'>序列化 serialize()<br/></span>
+            <span>点击提交,将会序列化表单内容,并输出到下面两行<br/>serialize():</span>
+            <span id="serialize_form_cont"></span><br/>
+            <span>serializeArray():</span>
+            <span id="serialize_form_json_cont"></span><br/>
+            <span class='purple'>serializeArray()返回json对象.中文未转码<br/></span>
+        </p>
+        <form id="serialize_form" onsubmit="return false;">
+            <p>username:<input type="text" name="username"></p>
+            <p>password:<input type="text" name="password"></p>
+            <p>yzm:<input type="text" name="password"></p>
+            <p><input type="reset" value="重置">&nbsp;<input id="serialize_f_submit" type="submit" value="提交"></p>
+        </form><hr/>
+    </div>
+
+
 
 </div>
+
 <script>
 
 </script>
